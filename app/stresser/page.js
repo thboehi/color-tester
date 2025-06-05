@@ -135,7 +135,7 @@ export default function Home() {
       {/* Bouton pour afficher/masquer les contrôles */}
       <button 
         onClick={toggleControls}
-        className="absolute top-5 right-5 z-50 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-gray-400/20 hover:bg-white/20 transition-all cursor-pointer"
+        className="absolute top-5 right-5 z-50 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-gray-400/20 hover:bg-white/20 transition-all duration-500 cursor-pointer"
       >
         <span className="text-gray-500 text-lg">
           {controlsVisible ? '×' : '+'}
@@ -145,31 +145,31 @@ export default function Home() {
       <div className="absolute top-5 left-5 z-50 group">
         <button
           onClick={() => window.location.href = '/'}
-          className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-gray-400/20 hover:bg-white/20 transition-all duration-300 cursor-pointer text-gray-500 hover:w-auto hover:px-4 hover:gap-2"
+          className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-gray-400/20 hover:bg-white/20 transition-all duration-500 cursor-pointer text-gray-500 hover:w-auto hover:px-4 hover:gap-2"
         >
           <Image src="/arrow-left.svg" alt="Home" width={10} height={10} className="w-4 h-4" />
-          <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap text-sm overflow-hidden max-w-0 group-hover:max-w-xs">
+          <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 whitespace-nowrap text-sm overflow-hidden max-w-0 group-hover:max-w-xs">
             Home
           </span>
         </button>
       </div>
       
-      <main className={`flex flex-col gap-6 items-center justify-center min-h-screen py-2 font-[family-name:var(--font-geist-mono)] transition-opacity duration-300 ${controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+      <main className={`flex flex-col gap-6 items-center justify-center min-h-screen py-2 font-[family-name:var(--font-geist-mono)] transition-opacity duration-500 ${controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         {/* Boutons de couleurs */}
-        <button onClick={() => setBgColor("bg-black")} className="bg-white/0 hover:bg-gray-400/10 flex items-center justify-between px-8 py-1 z-50 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all">
+        <button onClick={() => setBgColor("bg-black")} className="bg-white/0 hover:bg-gray-400/10 flex items-center justify-between px-8 py-1 z-50 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all duration-500 delay-100">
           <p className="text-gray-500">Black</p>
         </button>
-        <button onClick={() => setBgColor("bg-white")} className="bg-white/0 hover:bg-gray-400/10 flex items-center justify-between px-8 py-1 z-50 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all">
+        <button onClick={() => setBgColor("bg-white")} className="bg-white/0 hover:bg-gray-400/10 flex items-center justify-between px-8 py-1 z-50 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all duration-500 delay-100">
           <p className="text-gray-500">White</p>
         </button>
         
-        <button onClick={() => setBgColor("bg-red-full")} className="bg-white/0 hover:bg-gray-400/10 flex items-center justify-between px-8 py-1 z-50 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all">
+        <button onClick={() => setBgColor("bg-red-full")} className="bg-white/0 hover:bg-gray-400/10 flex items-center justify-between px-8 py-1 z-50 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all duration-500 delay-100">
           <p className="text-gray-500">Red</p>
         </button>
-        <button onClick={() => setBgColor("bg-green-full")} className="bg-white/0 hover:bg-gray-400/10 flex items-center justify-between px-8 py-1 z-50 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all">
+        <button onClick={() => setBgColor("bg-green-full")} className="bg-white/0 hover:bg-gray-400/10 flex items-center justify-between px-8 py-1 z-50 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all duration-500 delay-100">
           <p className="text-gray-500">Green</p>
         </button>
-        <button onClick={() => setBgColor("bg-blue-full")} className="bg-white/0 hover:bg-gray-400/10 flex items-center justify-between px-8 py-1 z-50 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all">
+        <button onClick={() => setBgColor("bg-blue-full")} className="bg-white/0 hover:bg-gray-400/10 flex items-center justify-between px-8 py-1 z-50 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all duration-500 delay-100">
           <p className="text-gray-500">Blue</p>
         </button>
         
@@ -177,7 +177,7 @@ export default function Home() {
         <div className="flex flex-col gap-4 items-center mt-6">
           <button 
             onClick={toggleFlashing} 
-            className={`bg-white/0 hover:bg-gray-400/10 flex items-center justify-between px-8 py-1 z-50 rounded-full backdrop-blur-sm border ${isFlashing ? 'border-red-400' : 'border-gray-400/20'} cursor-pointer transition-all`}
+            className={`bg-white/0 hover:bg-gray-400/10 flex items-center justify-between px-8 py-1 z-50 rounded-full backdrop-blur-sm border ${isFlashing ? 'border-red-400' : 'border-gray-400/20'} cursor-pointer transition-all duration-500 delay-100`}
           >
             <p className={`${isFlashing ? 'text-red-500' : 'text-gray-500'}`}>
               {isFlashing ? 'Stop Flashing' : 'Start Flashing'}

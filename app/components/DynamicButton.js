@@ -5,7 +5,8 @@ export default function DynamicButton({
   description, 
   onClick, 
   className = "",
-  variant = "default" 
+  variant = "default",
+  openInNewTab = false 
 }) {
   const baseClasses = "group relative flex flex-col items-center justify-center rounded-4xl backdrop-blur-sm border cursor-pointer transition-all duration-500 overflow-hidden";
   
@@ -15,14 +16,38 @@ export default function DynamicButton({
     secondary: "bg-purple-500/10 hover:bg-purple-500/20 border-purple-400/30 text-purple-400"
   };
 
+  const handleClick = (e) => {
+    if (openInNewTab) {
+      e.preventDefault();
+      // Si onClick retourne une URL, l'ouvrir dans un nouvel onglet
+      const result = onClick();
+      if (typeof result === 'string') {
+        window.open(result, '_blank', 'noopener,noreferrer');
+      }
+    } else {
+      onClick();
+    }
+  };
+
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
       className={`${baseClasses} ${variants[variant]} px-4 py-2 z-50 hover:px-6 hover:py-6 w-64 hover:w-80 md:w-64 md:hover:w-72 ${className}`}
     >
       {/* Titre toujours visible */}
       <span className="font-medium transition-all duration-300 text-center">
         {title}
+        {/* Indicateur visuel pour nouvel onglet */}
+        {openInNewTab && (
+          <svg 
+            className="inline-block ml-1 w-3 h-3 opacity-60" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        )}
       </span>
       
       {/* Description qui apparaît au hover sur desktop, toujours visible sur mobile */}

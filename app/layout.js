@@ -13,19 +13,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Colors Tools by thbo",
+  title: "Color Tools by thbo",
   description: "Try tools to test the colors on your screen or your website. Calculate the energy consumption of your screen.",
   icons: {
     icon: "/icon.svg",
     shortcut: "/icon.svg",
   },
   openGraph: {
-    title: "Colors Tools by thbo",
+    title: "Color Tools by thbo",
     type: "website",
     locale: "en_US",
     description: "Try tools to test the colors on your screen or your website. Calculate the energy consumption of your screen.",
     url: "https://ct.thbo.ch/",
-    siteName: "Colors Tools",
+    siteName: "Color Tools",
     images: [
       {
         url: "/og.png",

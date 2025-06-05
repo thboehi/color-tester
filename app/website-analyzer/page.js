@@ -91,7 +91,7 @@ export default function WebsiteTester() {
             <div className="absolute top-5 left-5 z-50 group">
                 <button
                     onClick={() => window.location.href = '/'}
-                    className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-gray-400/20 hover:bg-white/20 transition-all duration-300 cursor-pointer text-gray-500 hover:w-auto hover:px-4 hover:gap-2"
+                    className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-gray-400/20 hover:bg-white/20 transition-all duration-500 cursor-pointer text-gray-500 hover:w-auto hover:px-4 hover:gap-2"
                 >
                     <Image src="/arrow-left.svg" alt="Home" width={10} height={10} className="w-4 h-4" />
                     <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap text-sm overflow-hidden max-w-0 group-hover:max-w-xs">
@@ -105,7 +105,7 @@ export default function WebsiteTester() {
                 <div className="absolute top-5 right-5 z-50 group">
                     <button
                         onClick={() => setShowHistory(!showHistory)}
-                        className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-gray-400/20 hover:bg-white/20 transition-all duration-300 cursor-pointer text-gray-500 hover:w-auto hover:px-4 hover:gap-2"
+                        className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-gray-400/20 hover:bg-white/20 transition-all duration-500 cursor-pointer text-gray-500 hover:w-auto hover:px-4 hover:gap-2"
                     >
                         <span className="text-lg">
                             {showHistory ? '×' : '📋'}
