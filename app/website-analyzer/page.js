@@ -63,7 +63,9 @@ export default function WebsiteTester() {
         setIsAnalyzing(true);
         
         try {
-            const response = await fetch('/api/analyze-website', {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api';
+
+            const response = await fetch(`${apiUrl}/analyze-website`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ url, theme })
