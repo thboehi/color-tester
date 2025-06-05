@@ -95,7 +95,7 @@ export default function WebsiteTester() {
                 >
                     <Image src="/arrow-left.svg" alt="Home" width={10} height={10} className="w-4 h-4" />
                     <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap text-sm overflow-hidden max-w-0 group-hover:max-w-xs">
-                        Retourner à l'accueil
+                        Home
                     </span>
                 </button>
             </div>
@@ -111,7 +111,7 @@ export default function WebsiteTester() {
                             {showHistory ? '×' : '📋'}
                         </span>
                         <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap text-sm overflow-hidden max-w-0 group-hover:max-w-xs">
-                            {showHistory ? 'Fermer historique' : `Historique (${analysisHistory.length})`}
+                            {showHistory ? 'Close' : `History (${analysisHistory.length})`}
                         </span>
                     </button>
                 </div>
