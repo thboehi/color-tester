@@ -16,7 +16,6 @@ export default function Navbar( ) {
                 <li className="hover:-translate-y-1 transition-transform"><a href="#" className="text-gray-500 hover:text-white transition-all -my-6 py-6 hover:translate-y-2">Contact</a></li>
             </ul>
         </nav>
-        
     </>
   )
 }
