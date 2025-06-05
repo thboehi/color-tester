@@ -1,6 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Navbar from "./components/Navbar";
+import "../globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,19 +12,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Colors Tools by thbo",
-  description: "Try tools to test the colors on your screen or your website. Calculate the energy consumption of your screen.",
+  title: "Website Analyzer by thbo",
+  description: "Test your website to see the black and white colors to know your energy ratio.",
   icons: {
     icon: "/icon.svg",
     shortcut: "/icon.svg",
   },
   openGraph: {
-    title: "Colors Tools by thbo",
+    title: "Website Analyzer by thbo",
     type: "website",
     locale: "en_US",
-    description: "Try tools to test the colors on your screen or your website. Calculate the energy consumption of your screen.",
+    description: "Test your website to see the black and white colors to know your energy ratio.",
     url: "https://ct.thbo.ch/",
-    siteName: "Colors Tools",
+    siteName: "Website Analyzer",
     images: [
       {
         url: "/og.png",
