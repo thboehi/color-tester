@@ -2,6 +2,11 @@ import puppeteer from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
 import sharp from 'sharp';
 
+// ⚠️ WARNING WARNING WARNING ⚠️
+// This API is not used directly in the application because it doesn't work with Vercel, but if you install this tool locally, you can use this API to analyze websites.
+// To use this API, you just need to change the API address in the `handleAnalyze` function in the `app/website-analyzer/page.js` file.
+// ⚠️ WARNING WARNING WARNING ⚠️
+
 // Fonction de validation d'URL côté serveur
 function validateUrl(url) {
     try {

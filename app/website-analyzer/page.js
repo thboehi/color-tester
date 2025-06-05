@@ -57,7 +57,8 @@ export default function WebsiteTester() {
             dominantColors: Array.isArray(newResult.dominantColors) ? newResult.dominantColors.slice(0, 3) : [],
             allDominantColors: Array.isArray(newResult.dominantColors) ? newResult.dominantColors : [],
             totalColors: newResult.totalColors || 0,
-            screenshot: newResult.screenshot || null
+            screenshot: newResult.screenshot || null,
+            screenshotSize: newResult.metadata?.screenshotSize || null
         };
 
         const updatedHistory = [analysisItem, ...analysisHistory.slice(0, 9)];
@@ -160,7 +161,8 @@ export default function WebsiteTester() {
             metadata: {
                 url: historyItem.url || '',
                 theme: historyItem.theme || 'dark',
-                timestamp: historyItem.timestamp || new Date().toISOString()
+                timestamp: historyItem.timestamp || new Date().toISOString(),
+                screenshotSize: historyItem.screenshotSize || null,
             }
         };
 

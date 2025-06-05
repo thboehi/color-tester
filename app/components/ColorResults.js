@@ -51,6 +51,45 @@ export default function ColorResults({ results }) {
     
     return (
         <div className="space-y-6 w-full">
+            {/* Recommandations énergétiques améliorées */}
+            <div className="bg-white/0 backdrop-blur-sm border border-gray-400/20 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-gray-400 mb-4 text-center">
+                    Energy Efficiency Score
+                </h3>
+                <div className="text-center space-y-4">
+                    {/* Score visuel */}
+                    <div className="flex items-center justify-center space-x-4">
+                        <div className={`text-3xl ${energyInfo.color}`}>
+                            {energyInfo.icon}
+                        </div>
+                        <div className={`text-2xl font-bold ${energyInfo.color}`}>
+                            {darkPercentage.toFixed(0)}%
+                        </div>
+                    </div>
+                    
+                    {/* Message */}
+                    <div className={`${energyInfo.color} text-sm font-medium`}>
+                        {energyInfo.message}
+                    </div>
+                    
+                    {/* Barre de progression */}
+                    <div className="w-full bg-gray-700 rounded-full h-3 mt-4">
+                        <div 
+                            className={`h-3 rounded-full transition-all duration-1000 ${
+                                energyInfo.level === 'excellent' ? 'bg-green-400' :
+                                energyInfo.level === 'good' ? 'bg-yellow-400' :
+                                energyInfo.level === 'moderate' ? 'bg-orange-400' : 'bg-red-400'
+                            }`}
+                            style={{ width: `${darkPercentage}%` }}
+                        ></div>
+                    </div>
+                    
+                    <div className="text-xs text-gray-500 mt-2">
+                        Dark pixels consume significantly less energy on OLED displays
+                    </div>
+                </div>
+            </div>
+            
             {/* Screenshot du site */}
             {screenshot && (
                 <div className="bg-white/0 backdrop-blur-sm border border-gray-400/20 rounded-2xl p-6 flex flex-col items-center">
@@ -152,44 +191,6 @@ export default function ColorResults({ results }) {
                 </div>
             </div>
 
-            {/* Recommandations énergétiques améliorées */}
-            <div className="bg-white/0 backdrop-blur-sm border border-gray-400/20 rounded-2xl p-6">
-                <h3 className="text-xl font-semibold text-gray-400 mb-4 text-center">
-                    Energy Efficiency Score
-                </h3>
-                <div className="text-center space-y-4">
-                    {/* Score visuel */}
-                    <div className="flex items-center justify-center space-x-4">
-                        <div className={`text-3xl ${energyInfo.color}`}>
-                            {energyInfo.icon}
-                        </div>
-                        <div className={`text-2xl font-bold ${energyInfo.color}`}>
-                            {darkPercentage.toFixed(0)}%
-                        </div>
-                    </div>
-                    
-                    {/* Message */}
-                    <div className={`${energyInfo.color} text-sm font-medium`}>
-                        {energyInfo.message}
-                    </div>
-                    
-                    {/* Barre de progression */}
-                    <div className="w-full bg-gray-700 rounded-full h-3 mt-4">
-                        <div 
-                            className={`h-3 rounded-full transition-all duration-1000 ${
-                                energyInfo.level === 'excellent' ? 'bg-green-400' :
-                                energyInfo.level === 'good' ? 'bg-yellow-400' :
-                                energyInfo.level === 'moderate' ? 'bg-orange-400' : 'bg-red-400'
-                            }`}
-                            style={{ width: `${darkPercentage}%` }}
-                        ></div>
-                    </div>
-                    
-                    <div className="text-xs text-gray-500 mt-2">
-                        Dark pixels consume significantly less energy on OLED displays
-                    </div>
-                </div>
-            </div>
         </div>
     );
 }

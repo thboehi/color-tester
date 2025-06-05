@@ -18,19 +18,19 @@ export default function Home() {
         <DynamicButton
           title="Color Stresser"
           description="Test energy consumption with different screen colors and patterns"
-          onClick={() => window.location.href = '/stresser'}
+          href={'/stresser'}
           variant="primary"
         />
         <DynamicButton
           title="Website Tester"
           description="Test the ratio between dark and light colors on your website"
-          onClick={() => window.location.href = '/website-analyzer'}
+          href={'/website-analyzer'}
           variant="primary"
         />
         <DynamicButton
           title="Support"
-          description="Help me improve these tools"
-          onClick={() => 'https://paypal.me/Boehi'}
+          description="Help me improve and maintain these tools"
+          href={'https://paypal.me/Boehi'}
           variant="secondary"
           openInNewTab={true}
         />

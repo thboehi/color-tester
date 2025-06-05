@@ -4,6 +4,7 @@ export default function DynamicButton({
   title, 
   description, 
   onClick, 
+  href,
   className = "",
   variant = "default",
   openInNewTab = false 
@@ -17,28 +18,45 @@ export default function DynamicButton({
   };
 
   const handleClick = (e) => {
-    if (openInNewTab) {
+    // Si onClick est défini, il est prioritaire
+    if (onClick) {
       e.preventDefault();
-      // Si onClick retourne une URL, l'ouvrir dans un nouvel onglet
-      const result = onClick();
-      if (typeof result === 'string') {
-        window.open(result, '_blank', 'noopener,noreferrer');
-      }
-    } else {
       onClick();
+      return;
+    }
+
+    // Sinon, gérer la navigation avec href
+    if (href) {
+      if (openInNewTab) {
+        e.preventDefault();
+        window.open(href, '_blank', 'noopener,noreferrer');
+      }
+      // Si openInNewTab est false, laisser le comportement par défaut du lien
     }
   };
 
+  // Si on a un href et pas d'onClick, utiliser un élément <a>
+  // Sinon utiliser un <button>
+  const Component = href && !onClick ? 'a' : 'button';
+  
+  // Props spécifiques selon le type d'élément
+  const elementProps = href && !onClick ? {
+    href: href,
+    target: openInNewTab ? '_blank' : undefined,
+    rel: openInNewTab ? 'noopener noreferrer' : undefined
+  } : {};
+
   return (
-    <button
+    <Component
       onClick={handleClick}
+      {...elementProps}
       className={`${baseClasses} ${variants[variant]} px-4 py-2 z-50 hover:px-6 hover:py-6 w-64 hover:w-80 md:w-64 md:hover:w-72 ${className}`}
     >
       {/* Titre toujours visible */}
       <span className="font-medium transition-all duration-300 text-center">
         {title}
         {/* Indicateur visuel pour nouvel onglet */}
-        {openInNewTab && (
+        {(openInNewTab && !onClick) && (
           <svg 
             className="inline-block ml-1 w-3 h-3 opacity-60" 
             fill="none" 
@@ -54,6 +72,6 @@ export default function DynamicButton({
       <span className="block md:opacity-0 md:max-h-0 md:group-hover:opacity-70 md:group-hover:max-h-20 transition-all duration-500 delay-100 text-sm font-normal text-center mt-2 md:mt-0 md:group-hover:mt-2 leading-relaxed px-2">
         {description}
       </span>
-    </button>
+    </Component>
   );
 }
