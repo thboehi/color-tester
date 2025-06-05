@@ -53,15 +53,15 @@ export default function ColorResults({ results }) {
         <div className="space-y-6 w-full">
             {/* Screenshot du site */}
             {screenshot && (
-                <div className="bg-white/0 backdrop-blur-sm border border-gray-400/20 rounded-2xl p-6">
+                <div className="bg-white/0 backdrop-blur-sm border border-gray-400/20 rounded-2xl p-6 flex flex-col items-center">
                     <h3 className="text-xl font-semibold text-gray-400 mb-4 text-center">
                         Website Screenshot
                     </h3>
-                    <div className="relative overflow-hidden rounded-xl border border-gray-400/20">
+                    <div className="w-fit relative overflow-hidden rounded-xl border border-gray-400/20">
                         <img 
                             src={screenshot} 
                             alt="Website screenshot" 
-                            className="w-full h-auto max-h-96 object-contain bg-white"
+                            className="w-full h-auto max-h-96 object-contain bg-black"
                         />
                     </div>
                     {metadata && (

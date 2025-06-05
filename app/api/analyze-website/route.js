@@ -1,4 +1,5 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
+import chromium from '@sparticuz/chromium';
 import sharp from 'sharp';
 
 // Fonction de validation d'URL côté serveur
@@ -38,18 +39,17 @@ export async function POST(request) {
             return Response.json({ error: validation.error }, { status: 400 });
         }
         
-        // Configuration Puppeteer pour production
+        // Configuration Puppeteer pour Vercel avec @sparticuz/chromium
         const browser = await puppeteer.launch({
-            headless: true,
             args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--disable-dev-shm-usage',
-                '--disable-gpu',
-                '--no-first-run',
-                '--no-zygote',
-                '--single-process'
-            ]
+                ...chromium.args,
+                '--hide-scrollbars',
+                '--disable-web-security',
+                '--disable-features=VizDisplayCompositor',
+            ],
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath(),
+            headless: chromium.headless,
         });
         
         const page = await browser.newPage();
