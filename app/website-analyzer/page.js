@@ -14,6 +14,22 @@ export default function WebsiteTester() {
     const [results, setResults] = useState(null);
     const [analysisHistory, setAnalysisHistory] = useState([]);
     const [showHistory, setShowHistory] = useState(false);
+    const [loadingDots, setLoadingDots] = useState('');
+
+    // Animation des points de chargement
+    useEffect(() => {
+        if (isAnalyzing) {
+            const interval = setInterval(() => {
+                setLoadingDots(prev => {
+                    if (prev === '...') return '';
+                    return prev + '.';
+                });
+            }, 500);
+            return () => clearInterval(interval);
+        } else {
+            setLoadingDots('');
+        }
+    }, [isAnalyzing]);
 
     // Charger l'historique depuis localStorage au montage
     useEffect(() => {
@@ -161,11 +177,60 @@ export default function WebsiteTester() {
 
     return (
         <div className="min-h-screen bg-black">
+            {/* Overlay de chargement */}
+            {isAnalyzing && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+                    <div className="max-w-md mx-4 p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-gray-400/20 text-center space-y-6">
+                        {/* Spinner animé */}
+                        <div className="flex justify-center">
+                            <div className="w-12 h-12 border-2 border-gray-600 border-t-gray-400 rounded-full animate-spin"></div>
+                        </div>
+                        
+                        {/* Titre avec animation */}
+                        <div className="space-y-2">
+                            <h3 className="text-xl font-semibold text-gray-300">
+                                Analyzing website{loadingDots}
+                            </h3>
+                            <p className="text-sm text-gray-500">
+                                This may take up to a minute
+                            </p>
+                        </div>
+                        
+                        {/* Message d'information */}
+                        <div className="space-y-3 text-xs text-gray-600">
+                            <p className="flex items-center justify-center gap-2">
+                                <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
+                                Taking screenshot with {theme} theme
+                            </p>
+                            <p className="flex items-center justify-center gap-2">
+                                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                                Analyzing color composition
+                            </p>
+                            <p className="flex items-center justify-center gap-2">
+                                <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
+                                Extracting metadata
+                            </p>
+                        </div>
+                        
+                        {/* Avertissement */}
+                        <div className="pt-4 border-t border-gray-400/10">
+                            <p className="text-xs text-gray-500 flex items-center justify-center gap-2">
+                                <span className="text-yellow-400">⚠️</span>
+                                Please do not close this page
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Boutons navigation */}
-            <div className="absolute top-5 left-5 z-50 group">
+            <div className="absolute top-5 left-5 z-40 group">
                 <button
                     onClick={() => window.location.href = '/'}
-                    className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-gray-400/20 hover:bg-white/20 transition-all duration-500 cursor-pointer text-gray-500 hover:w-auto hover:px-4 hover:gap-2"
+                    disabled={isAnalyzing}
+                    className={`w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-gray-400/20 hover:bg-white/20 transition-all duration-500 cursor-pointer text-gray-500 hover:w-auto hover:px-4 hover:gap-2 ${
+                        isAnalyzing ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
                 >
                     <Image src="/arrow-left.svg" alt="Home" width={10} height={10} className="w-4 h-4" />
                     <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap text-sm overflow-hidden max-w-0 group-hover:max-w-xs">
@@ -175,10 +240,13 @@ export default function WebsiteTester() {
             </div>
 
             {analysisHistory.length > 0 && (
-                <div className="absolute top-5 right-5 z-50 group">
+                <div className="absolute top-5 right-5 z-40 group">
                     <button
                         onClick={() => setShowHistory(!showHistory)}
-                        className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-gray-400/20 hover:bg-white/20 transition-all duration-500 cursor-pointer text-gray-500 hover:w-auto hover:px-4 hover:gap-2"
+                        disabled={isAnalyzing}
+                        className={`w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-gray-400/20 hover:bg-white/20 transition-all duration-500 cursor-pointer text-gray-500 hover:w-auto hover:px-4 hover:gap-2 ${
+                            isAnalyzing ? 'opacity-50 cursor-not-allowed' : ''
+                        }`}
                     >
                         <span className="text-lg">
                             {showHistory ? '×' : '📋'}
@@ -190,7 +258,7 @@ export default function WebsiteTester() {
                 </div>
             )}
 
-            {showHistory && (
+            {showHistory && !isAnalyzing && (
                 <AnalysisHistory 
                     history={analysisHistory}
                     onSelect={handleSelectFromHistory}
@@ -214,21 +282,23 @@ export default function WebsiteTester() {
                             <div className="flex gap-2 justify-center">
                                 <button
                                     onClick={() => setTheme('dark')}
+                                    disabled={isAnalyzing}
                                     className={`cursor-pointer px-3 md:px-4 py-2 rounded-full text-sm transition-all ${
                                         theme === 'dark' 
                                             ? 'bg-gray-600 text-white border border-gray-400/40' 
                                             : 'bg-white/10 text-gray-500 hover:bg-white/20 border border-gray-400/20'
-                                    }`}
+                                    } ${isAnalyzing ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >
                                     🌙 Dark Theme
                                 </button>
                                 <button
                                     onClick={() => setTheme('light')}
+                                    disabled={isAnalyzing}
                                     className={`cursor-pointer px-3 md:px-4 py-2 rounded-full text-sm transition-all ${
                                         theme === 'light' 
                                             ? 'bg-gray-200 text-gray-900 border border-gray-400/40' 
                                             : 'bg-white/10 text-gray-500 hover:bg-white/20 border border-gray-400/20'
-                                    }`}
+                                    } ${isAnalyzing ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >
                                     ☀️ Light Theme
                                 </button>
@@ -245,7 +315,10 @@ export default function WebsiteTester() {
                                 placeholder="https://example.com"
                                 value={url}
                                 onChange={(e) => setUrl(e.target.value)}
-                                className="flex-1 px-6 md:px-8 py-2 bg-white/0 backdrop-blur-sm border border-gray-400/20 rounded-full text-gray-500 placeholder-gray-600 focus:outline-none focus:border-gray-400/40 transition-all"
+                                disabled={isAnalyzing}
+                                className={`flex-1 px-6 md:px-8 py-2 bg-white/0 backdrop-blur-sm border border-gray-400/20 rounded-full text-gray-500 placeholder-gray-600 focus:outline-none focus:border-gray-400/40 transition-all ${
+                                    isAnalyzing ? 'opacity-50 cursor-not-allowed' : ''
+                                }`}
                             />
                             <button
                                 onClick={handleAnalyze}
@@ -259,7 +332,7 @@ export default function WebsiteTester() {
                         </div>
                     </div>
 
-                    {results && <ColorResults results={results} />}
+                    {results && !isAnalyzing && <ColorResults results={results} />}
                 </div>
             </main>
 
