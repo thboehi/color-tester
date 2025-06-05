@@ -1,9 +1,11 @@
 "use client";
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import ColorResults from '../components/ColorResults';
 import Footer from '../components/Footer';
 import AnalysisHistory from '../components/AnalysisHistory';
 import Image from 'next/image';
+import { validateWebsiteUrl } from '../utils/urlValidator';
 
 export default function WebsiteTester() {
     const [url, setUrl] = useState('');
@@ -21,21 +23,25 @@ export default function WebsiteTester() {
         }
     }, []);
 
-    // Sauvegarder dans localStorage
+    // Sauvegarder dans localStorage avec vérifications
     const saveToHistory = (newResult) => {
+        if (!newResult || !newResult.metadata) {
+            console.error('Invalid result data:', newResult);
+            return;
+        }
+
         const analysisItem = {
             id: Date.now(),
-            url: newResult.metadata.url,
-            theme: newResult.metadata.theme,
-            timestamp: newResult.metadata.timestamp,
-            siteMetadata: newResult.siteMetadata,
-            darkPercentage: newResult.darkPercentage,
-            lightPercentage: newResult.lightPercentage,
-            dominantColors: newResult.dominantColors.slice(0, 3),
-            // Sauvegarder toutes les données importantes
-            allDominantColors: newResult.dominantColors,
-            totalColors: newResult.totalColors,
-            screenshot: newResult.screenshot // Sauvegarder aussi le screenshot
+            url: newResult.metadata?.url || url,
+            theme: newResult.metadata?.theme || theme,
+            timestamp: newResult.metadata?.timestamp || new Date().toISOString(),
+            siteMetadata: newResult.siteMetadata || {},
+            darkPercentage: newResult.darkPercentage || 0,
+            lightPercentage: newResult.lightPercentage || 0,
+            dominantColors: Array.isArray(newResult.dominantColors) ? newResult.dominantColors.slice(0, 3) : [],
+            allDominantColors: Array.isArray(newResult.dominantColors) ? newResult.dominantColors : [],
+            totalColors: newResult.totalColors || 0,
+            screenshot: newResult.screenshot || null
         };
 
         const updatedHistory = [analysisItem, ...analysisHistory.slice(0, 9)];
@@ -44,50 +50,116 @@ export default function WebsiteTester() {
     };
 
     const handleAnalyze = async () => {
+        // Validation de l'URL
+        const validation = validateWebsiteUrl(url);
+        if (!validation.valid) {
+            toast.error(validation.error, {
+                className: '!bg-red-500/10 !border-red-400/30 !text-red-400',
+                progressClassName: '!bg-red-400/40'
+            });
+            return;
+        }
+
         setIsAnalyzing(true);
+        
         try {
             const response = await fetch('/api/analyze-website', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ url, theme })
             });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+            }
+            
             const data = await response.json();
+            
+            if (!data) {
+                throw new Error('No data received from API');
+            }
+
+            // Ajouter des métadonnées par défaut si elles manquent
+            if (!data.metadata) {
+                data.metadata = {
+                    url: url,
+                    theme: theme,
+                    timestamp: new Date().toISOString()
+                };
+            }
+
+            // Vérifier les autres champs essentiels
+            data.dominantColors = data.dominantColors || [];
+            data.darkPercentage = data.darkPercentage || 0;
+            data.lightPercentage = data.lightPercentage || 0;
+            data.siteMetadata = data.siteMetadata || {};
+
             setResults(data);
             saveToHistory(data);
+            
+            // Toast de succès
+            toast.success('Website analysis completed successfully!', {
+                className: '!bg-green-500/10 !border-green-400/30 !text-green-400',
+                progressClassName: '!bg-green-400/40'
+            });
+            
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Analysis error:', error);
+            
+            // Toast d'erreur avec message personnalisé
+            const errorMessage = error.message.includes('timeout') 
+                ? 'The website took too long to respond. Please try again.'
+                : error.message.includes('network')
+                ? 'Network error. Please check your connection and try again.'
+                : error.message.includes('fetch')
+                ? 'Unable to access the website. Please verify the URL.'
+                : error.message || 'An error occurred during analysis. Please try again.';
+                
+            toast.error(errorMessage, {
+                className: '!bg-red-500/10 !border-red-400/30 !text-red-400',
+                progressClassName: '!bg-red-400/40'
+            });
         } finally {
             setIsAnalyzing(false);
         }
     };
 
-    // Nouvelle fonction pour charger directement depuis l'historique
+    // Fonction pour charger directement depuis l'historique
     const handleSelectFromHistory = (historyItem) => {
-        // Reconstituer l'objet résultat à partir des données sauvegardées
+        if (!historyItem) {
+            console.error('Invalid history item');
+            return;
+        }
+
         const reconstructedResult = {
-            dominantColors: historyItem.allDominantColors || historyItem.dominantColors,
-            darkPercentage: historyItem.darkPercentage,
-            lightPercentage: historyItem.lightPercentage,
-            totalColors: historyItem.totalColors,
-            screenshot: historyItem.screenshot,
-            siteMetadata: historyItem.siteMetadata,
+            dominantColors: historyItem.allDominantColors || historyItem.dominantColors || [],
+            darkPercentage: historyItem.darkPercentage || 0,
+            lightPercentage: historyItem.lightPercentage || 0,
+            totalColors: historyItem.totalColors || 0,
+            screenshot: historyItem.screenshot || null,
+            siteMetadata: historyItem.siteMetadata || {},
             metadata: {
-                url: historyItem.url,
-                theme: historyItem.theme,
-                timestamp: historyItem.timestamp
+                url: historyItem.url || '',
+                theme: historyItem.theme || 'dark',
+                timestamp: historyItem.timestamp || new Date().toISOString()
             }
         };
 
-        // Mettre à jour l'interface
         setResults(reconstructedResult);
-        setUrl(historyItem.url);
+        setUrl(historyItem.url || '');
         setTheme(historyItem.theme || 'dark');
         setShowHistory(false);
+        
+        toast.info('Analysis loaded from history', {
+            className: '!bg-blue-500/10 !border-blue-400/30 !text-blue-400',
+            progressClassName: '!bg-blue-400/40'
+        });
     };
 
     return (
         <div className="min-h-screen bg-black">
-            {/* Bouton pour retourner à la page principale */}
+            {/* Boutons navigation */}
             <div className="absolute top-5 left-5 z-50 group">
                 <button
                     onClick={() => window.location.href = '/'}
@@ -100,7 +172,6 @@ export default function WebsiteTester() {
                 </button>
             </div>
 
-            {/* Bouton pour afficher l'historique */}
             {analysisHistory.length > 0 && (
                 <div className="absolute top-5 right-5 z-50 group">
                     <button
@@ -117,7 +188,6 @@ export default function WebsiteTester() {
                 </div>
             )}
 
-            {/* Panel de l'historique */}
             {showHistory && (
                 <AnalysisHistory 
                     history={analysisHistory}
@@ -133,7 +203,6 @@ export default function WebsiteTester() {
                     </h1>
                     
                     <div className="flex flex-col gap-4 max-w-2xl mx-auto">
-                        {/* Explication et sélecteur de thème */}
                         <div className="text-center space-y-3">
                             <p className="text-sm text-gray-500 max-w-lg mx-auto px-4">
                                 Choose which system theme to simulate when analyzing the website. 
@@ -168,7 +237,6 @@ export default function WebsiteTester() {
                             </p>
                         </div>
 
-                        {/* URL et bouton d'analyse - responsive */}
                         <div className="flex flex-col md:flex-row gap-4 mt-6">
                             <input
                                 type="url"

@@ -1,13 +1,61 @@
 import puppeteer from 'puppeteer';
 import sharp from 'sharp';
 
+// Fonction de validation d'URL côté serveur
+function validateUrl(url) {
+    try {
+        const urlObj = new URL(url);
+        
+        // Vérifier le protocole HTTPS
+        if (urlObj.protocol !== 'https:') {
+            return { valid: false, error: 'Only HTTPS URLs are supported' };
+        }
+        
+        // Vérifier que ce n'est pas une IP locale ou localhost
+        const hostname = urlObj.hostname.toLowerCase();
+        if (hostname === 'localhost' || 
+            hostname === '127.0.0.1' || 
+            hostname.startsWith('192.168.') ||
+            hostname.startsWith('10.') ||
+            hostname.startsWith('172.') ||
+            hostname.endsWith('.local')) {
+            return { valid: false, error: 'Local URLs are not supported' };
+        }
+        
+        return { valid: true };
+    } catch (error) {
+        return { valid: false, error: 'Invalid URL format' };
+    }
+}
+
 export async function POST(request) {
     try {
         const { url, theme = 'dark' } = await request.json();
         
-        // 1. Capturer le screenshot et récupérer les métadonnées
-        const browser = await puppeteer.launch();
+        // Validation de l'URL
+        const validation = validateUrl(url);
+        if (!validation.valid) {
+            return Response.json({ error: validation.error }, { status: 400 });
+        }
+        
+        // Configuration Puppeteer pour production
+        const browser = await puppeteer.launch({
+            headless: true,
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-gpu',
+                '--no-first-run',
+                '--no-zygote',
+                '--single-process'
+            ]
+        });
+        
         const page = await browser.newPage();
+        
+        // Timeout plus court
+        page.setDefaultTimeout(15000);
         
         // Configurer le thème
         await page.emulateMediaFeatures([
@@ -15,7 +63,19 @@ export async function POST(request) {
         ]);
         
         await page.setViewport({ width: 1920, height: 1080 });
-        await page.goto(url, { waitUntil: 'networkidle0' });
+        
+        try {
+            await page.goto(url, { 
+                waitUntil: 'networkidle0',
+                timeout: 15000 
+            });
+        } catch (error) {
+            await browser.close();
+            if (error.message.includes('timeout')) {
+                return Response.json({ error: 'Website took too long to respond' }, { status: 408 });
+            }
+            return Response.json({ error: 'Unable to access the website' }, { status: 500 });
+        }
         
         // Récupérer les métadonnées du site
         const siteMetadata = await page.evaluate(() => {
@@ -24,13 +84,11 @@ export async function POST(request) {
                               document.querySelector('meta[property="og:description"]')?.content || 
                               'No description available';
             
-            // Chercher le favicon
             let favicon = document.querySelector('link[rel="icon"]')?.href ||
                          document.querySelector('link[rel="shortcut icon"]')?.href ||
                          document.querySelector('link[rel="apple-touch-icon"]')?.href ||
                          '/favicon.ico';
             
-            // Si le favicon est relatif, le rendre absolu
             if (favicon && !favicon.startsWith('http')) {
                 favicon = new URL(favicon, window.location.origin).href;
             }
@@ -41,10 +99,7 @@ export async function POST(request) {
         const screenshot = await page.screenshot({ fullPage: true });
         await browser.close();
         
-        // 2. Analyser les couleurs
         const colorAnalysis = await analyzeColors(screenshot);
-        
-        // 3. Convertir le screenshot en base64 pour l'envoyer
         const screenshotBase64 = screenshot.toString('base64');
         
         return Response.json({
@@ -59,7 +114,10 @@ export async function POST(request) {
             }
         });
     } catch (error) {
-        return Response.json({ error: error.message }, { status: 500 });
+        console.error('API Error:', error);
+        return Response.json({ 
+            error: 'Internal server error during analysis' 
+        }, { status: 500 });
     }
 }
 

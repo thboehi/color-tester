@@ -1,9 +1,18 @@
 "use client";
 
 export default function ColorResults({ results }) {
+    // Vérifications défensives
     if (!results) return null;
 
-    const { dominantColors, darkPercentage, lightPercentage, screenshot, metadata, totalColors } = results;
+    const { 
+        dominantColors = [], 
+        darkPercentage = 0, 
+        lightPercentage = 0, 
+        screenshot, 
+        metadata = {}, 
+        totalColors = 0,
+        siteMetadata = {}
+    } = results;
     
     // Fonction pour déterminer l'efficacité énergétique
     const getEnergyEfficiency = () => {
