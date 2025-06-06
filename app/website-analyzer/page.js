@@ -19,7 +19,7 @@ export default function WebsiteTester() {
     const [isAnalyzingModalClosing, setIsAnalyzingModalClosing] = useState(false);
     const [currentStep, setCurrentStep] = useState(0); // Nouvel état pour suivre l'étape actuelle
     // DEBUG: Simulate analysis for testing purposes
-    const simulateFakeAnalysis = true; // Set to true to simulate analysis for testing
+    const simulateFakeAnalysis = false; // Set to true to simulate analysis for testing
 
     // Animation des points de chargement
     useEffect(() => {
