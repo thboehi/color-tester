@@ -15,19 +15,39 @@ export default function WebsiteTester() {
     const [analysisHistory, setAnalysisHistory] = useState([]);
     const [showHistory, setShowHistory] = useState(false);
     const [loadingDots, setLoadingDots] = useState('');
+    const [isHistoryModalClosing, setIsHistoryModalClosing] = useState(false);
+    const [isAnalyzingModalClosing, setIsAnalyzingModalClosing] = useState(false);
+    const [currentStep, setCurrentStep] = useState(0); // Nouvel état pour suivre l'étape actuelle
+    // DEBUG: Simulate analysis for testing purposes
+    const simulateFakeAnalysis = true; // Set to true to simulate analysis for testing
 
     // Animation des points de chargement
     useEffect(() => {
         if (isAnalyzing) {
-            const interval = setInterval(() => {
+            // Animation des points
+            const dotsInterval = setInterval(() => {
                 setLoadingDots(prev => {
                     if (prev === '...') return '';
                     return prev + '.';
                 });
             }, 500);
-            return () => clearInterval(interval);
+
+            // Gestion des étapes progressives
+            setCurrentStep(0);
+            const stepInterval = setInterval(() => {
+                setCurrentStep(prev => {
+                    if (prev < 2) return prev + 1;
+                    return prev;
+                });
+            }, 3000); // 3 secondes entre chaque étape
+
+            return () => {
+                clearInterval(dotsInterval);
+                clearInterval(stepInterval);
+            };
         } else {
             setLoadingDots('');
+            setCurrentStep(0);
         }
     }, [isAnalyzing]);
 
@@ -67,6 +87,22 @@ export default function WebsiteTester() {
     };
 
     const handleAnalyze = async () => {
+        
+        // Debug : Simuler une analyse pour les tests
+        if (simulateFakeAnalysis) {
+            setIsAnalyzing(true);
+            //Ajoute une légère pause pour simuler l'analyse
+            await new Promise(resolve => setTimeout(resolve, 10000));
+            
+            // Animation de fermeture
+            setIsAnalyzingModalClosing(true);
+            setTimeout(() => {
+                setIsAnalyzing(false);
+                setIsAnalyzingModalClosing(false);
+            }, 300);
+            return;
+        }
+
         // Validation de l'URL
         const validation = validateWebsiteUrl(url);
         if (!validation.valid) {
@@ -114,8 +150,14 @@ export default function WebsiteTester() {
             data.lightPercentage = data.lightPercentage || 0;
             data.siteMetadata = data.siteMetadata || {};
 
-            setResults(data);
-            saveToHistory(data);
+            // Animation de fermeture avant d'afficher les résultats
+            setIsAnalyzingModalClosing(true);
+            setTimeout(() => {
+                setResults(data);
+                saveToHistory(data);
+                setIsAnalyzing(false);
+                setIsAnalyzingModalClosing(false);
+            }, 300);
             
             // Toast de succès
             toast.success('Website analysis completed successfully!', {
@@ -125,6 +167,13 @@ export default function WebsiteTester() {
             
         } catch (error) {
             console.error('Analysis error:', error);
+            
+            // Animation de fermeture en cas d'erreur
+            setIsAnalyzingModalClosing(true);
+            setTimeout(() => {
+                setIsAnalyzing(false);
+                setIsAnalyzingModalClosing(false);
+            }, 300);
             
             // Toast d'erreur avec message personnalisé
             const errorMessage = error.message.includes('timeout') 
@@ -139,8 +188,6 @@ export default function WebsiteTester() {
                 className: '!bg-red-500/10 !border-red-400/30 !text-red-400',
                 progressClassName: '!bg-red-400/40'
             });
-        } finally {
-            setIsAnalyzing(false);
         }
     };
 
@@ -177,19 +224,62 @@ export default function WebsiteTester() {
         });
     };
 
+    // Fonction pour fermer la modal History avec animation
+    const closeHistoryModal = () => {
+        setIsHistoryModalClosing(true);
+        setTimeout(() => {
+            setShowHistory(false);
+            setIsHistoryModalClosing(false);
+        }, 300);
+    };
+
+    // Gestion de la touche Escape pour fermer la modal d'historique
+    useEffect(() => {
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') {
+                if (showHistory) closeHistoryModal();
+            }
+        };
+
+        document.addEventListener('keydown', handleEscape);
+        return () => document.removeEventListener('keydown', handleEscape);
+    }, [showHistory]);
+
     return (
         <div className="min-h-screen bg-black">
             {/* Overlay de chargement */}
             {isAnalyzing && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
-                    <div className="max-w-md mx-4 p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-gray-400/20 text-center space-y-6">
-                        {/* Spinner animé */}
-                        <div className="flex justify-center">
+                <div 
+                    className={`fixed inset-0 z-50 flex items-center justify-center transition-all duration-300 ${
+                        isAnalyzingModalClosing 
+                            ? 'bg-black/0 backdrop-blur-none' 
+                            : 'bg-black/80 backdrop-blur-sm'
+                    }`}
+                    style={{
+                        animation: isAnalyzingModalClosing 
+                            ? 'fadeOut 0.3s ease-out forwards' 
+                            : 'fadeIn 0.3s ease-out forwards'
+                    }}
+                >
+                    <div 
+                        className={`max-w-md mx-4 p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-gray-400/20 text-center space-y-6 transition-all duration-300 ${
+                            isAnalyzingModalClosing 
+                                ? 'scale-95 opacity-0 translate-y-4' 
+                                : 'scale-100 opacity-100 translate-y-0'
+                        }`}
+                        style={{
+                            animation: isAnalyzingModalClosing 
+                                ? 'slideOut 0.3s ease-out forwards' 
+                                : 'slideIn 0.3s ease-out forwards'
+                        }}
+                    >
+                        {/* Spinner animé avec animation d'apparition */}
+                        <div className="flex justify-center animate-fadeInUp" style={{ animationDelay: '0.1s' }}>
                             <div className="w-12 h-12 border-2 border-gray-600 border-t-gray-400 rounded-full animate-spin"></div>
                         </div>
                         
                         {/* Titre avec animation */}
-                        <div className="space-y-2">
+                        <div className="space-y-2 animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
                             <h3 className="text-xl font-semibold text-gray-300">
                                 Analyzing website{loadingDots}
                             </h3>
@@ -198,26 +288,49 @@ export default function WebsiteTester() {
                             </p>
                         </div>
                         
-                        {/* Message d'information */}
-                        <div className="space-y-3 text-xs text-gray-600">
-                            <p className="flex items-center justify-center gap-2">
-                                <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
-                                Taking screenshot with {theme} theme
-                            </p>
-                            <p className="flex items-center justify-center gap-2">
-                                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                                Analyzing color composition
-                            </p>
-                            <p className="flex items-center justify-center gap-2">
-                                <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
-                                Extracting metadata
-                            </p>
+                        {/* Messages d'information avec animations échelonnées et apparition progressive */}
+                        <div className="space-y-3 text-xs text-gray-600 animate-fadeInUp" style={{ animationDelay: '0.3s' }}>
+                            <div className={`flex items-center justify-center gap-2 transition-all duration-500 ${
+                                currentStep >= 0 ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-4'
+                            }`}>
+                                <span className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                    currentStep >= 0 ? 'bg-blue-400 animate-pulse' : 'bg-gray-600'
+                                }`}></span>
+                                <span className={currentStep >= 0 ? 'text-blue-300' : 'text-gray-600'}>
+                                    Taking screenshot with {theme} theme
+                                </span>
+                                {currentStep > 0 && <span className="text-green-400 ml-1">✓</span>}
+                            </div>
+                            
+                            <div className={`flex items-center justify-center gap-2 transition-all duration-500 ${
+                                currentStep >= 1 ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-4'
+                            }`} style={{ transitionDelay: currentStep >= 1 ? '0ms' : '500ms' }}>
+                                <span className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                    currentStep >= 1 ? 'bg-green-400 animate-pulse' : 'bg-gray-600'
+                                }`}></span>
+                                <span className={currentStep >= 1 ? 'text-green-300' : 'text-gray-600'}>
+                                    Analyzing color composition
+                                </span>
+                                {currentStep > 1 && <span className="text-green-400 ml-1">✓</span>}
+                            </div>
+                            
+                            <div className={`flex items-center justify-center gap-2 transition-all duration-500 ${
+                                currentStep >= 2 ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-4'
+                            }`} style={{ transitionDelay: currentStep >= 2 ? '0ms' : '1000ms' }}>
+                                <span className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                    currentStep >= 2 ? 'bg-yellow-400 animate-pulse' : 'bg-gray-600'
+                                }`}></span>
+                                <span className={currentStep >= 2 ? 'text-yellow-300' : 'text-gray-600'}>
+                                    Extracting metadata
+                                </span>
+                                {/* On peut ajouter une coche verte à la fin de l'analyse */}
+                            </div>
                         </div>
                         
-                        {/* Avertissement */}
-                        <div className="pt-4 border-t border-gray-400/10">
+                        {/* Avertissement avec animation */}
+                        <div className="pt-4 border-t border-gray-400/10 animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
                             <p className="text-xs text-gray-500 flex items-center justify-center gap-2">
-                                <span className="text-yellow-400">⚠️</span>
+                                <span className="text-yellow-400 animate-pulse">⚠️</span>
                                 Please do not close this page
                             </p>
                         </div>
@@ -263,8 +376,12 @@ export default function WebsiteTester() {
             {showHistory && !isAnalyzing && (
                 <AnalysisHistory 
                     history={analysisHistory}
-                    onSelect={handleSelectFromHistory}
-                    onClose={() => setShowHistory(false)}
+                    onSelect={(item) => {
+                        handleSelectFromHistory(item);
+                        closeHistoryModal();
+                    }}
+                    onClose={closeHistoryModal}
+                    isClosing={isHistoryModalClosing}
                 />
             )}
 

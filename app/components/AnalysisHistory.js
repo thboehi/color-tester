@@ -1,6 +1,6 @@
 "use client";
 
-export default function AnalysisHistory({ history, onSelect, onClose }) {
+export default function AnalysisHistory({ history, onSelect, onClose, isClosing = false }) {
     const formatDate = (timestamp) => {
         const date = new Date(timestamp);
         return date.toLocaleDateString('fr-FR', {
@@ -28,13 +28,37 @@ export default function AnalysisHistory({ history, onSelect, onClose }) {
     };
 
     return (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 flex items-center justify-center p-2 md:p-4">
-            <div className="bg-black/90 backdrop-blur-sm border border-gray-400/20 rounded-2xl p-4 md:p-6 w-full max-w-xs md:max-w-2xl max-h-[85vh] md:max-h-[80vh] overflow-y-auto">
+        <div 
+            className={`fixed inset-0 z-40 flex items-center justify-center p-2 md:p-4 transition-all duration-300 ${
+                isClosing 
+                    ? 'bg-black/0 backdrop-blur-none' 
+                    : 'bg-black/50 backdrop-blur-sm'
+            }`}
+            onClick={onClose}
+            style={{
+                animation: isClosing 
+                    ? 'fadeOut 0.3s ease-out forwards' 
+                    : 'fadeIn 0.3s ease-out forwards'
+            }}
+        >
+            <div 
+                className={`bg-black/90 backdrop-blur-sm border border-gray-400/20 rounded-2xl p-4 md:p-6 w-full max-w-xs md:max-w-2xl max-h-[85vh] md:max-h-[80vh] overflow-y-auto transition-all duration-300 ${
+                    isClosing 
+                        ? 'scale-95 opacity-0 translate-y-4' 
+                        : 'scale-100 opacity-100 translate-y-0'
+                }`}
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                    animation: isClosing 
+                        ? 'slideOut 0.3s ease-out forwards' 
+                        : 'slideIn 0.3s ease-out forwards'
+                }}
+            >
                 <div className="flex items-center justify-between mb-4 md:mb-6">
                     <h2 className="text-xl md:text-2xl font-bold text-gray-400">Analysis History</h2>
                     <button
                         onClick={onClose}
-                        className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-all text-gray-500 cursor-pointer"
+                        className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-all text-gray-500 cursor-pointer hover:rotate-90 hover:scale-110"
                     >
                         ×
                     </button>
@@ -46,14 +70,15 @@ export default function AnalysisHistory({ history, onSelect, onClose }) {
                     </div>
                 ) : (
                     <div className="space-y-3">
-                        {history.map((item) => {
+                        {history.map((item, index) => {
                             const energyLevel = getEnergyLevel(item.darkPercentage);
                             
                             return (
                                 <div
                                     key={item.id}
                                     onClick={() => onSelect(item)}
-                                    className="bg-white/5 hover:bg-white/10 border border-gray-400/20 rounded-xl p-3 md:p-4 cursor-pointer transition-all group"
+                                    className="bg-white/5 hover:bg-white/10 border border-gray-400/20 rounded-xl p-3 md:p-4 cursor-pointer transition-all group animate-fadeInUp"
+                                    style={{ animationDelay: `${index * 0.05}s` }}
                                 >
                                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                                         <div className="flex-1 min-w-0">
