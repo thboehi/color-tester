@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import Footer from "../components/Footer";
 
 export default function Home() {
   const [bgColor, setBgColor] = useState("bg-black");
@@ -348,8 +347,8 @@ export default function Home() {
               <section>
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">📋 Overview</h3>
                 <p className="text-gray-700 leading-relaxed">
-                  This guide will help you measure your screen's power consumption using digital energy meters. 
-                  Understanding your display's energy usage is crucial for optimizing power efficiency and calculating operational costs.
+                  This guide will help you measure your screen&apos;s power consumption using digital energy meters. 
+                  Understanding your display&apos;s energy usage is crucial for optimizing power efficiency and calculating operational costs.
                 </p>
               </section>
 
@@ -370,7 +369,7 @@ export default function Home() {
                 <div className="space-y-4">
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <h4 className="font-semibold text-gray-900 mb-2">Step 1: Setup</h4>
-                    <p className="text-gray-700">Connect your digital power meter between the wall outlet and your device's power cable.</p>
+                    <p className="text-gray-700">Connect your digital power meter between the wall outlet and your device&apos;s power cable.</p>
                   </div>
                   
                   <div className="bg-gray-50 p-4 rounded-lg">
@@ -444,7 +443,7 @@ export default function Home() {
               {/* Introduction */}
               <div className="bg-blue-50 border-l-4 border-blue-500 p-4">
                 <p className="text-gray-800">
-                  Calculate how much your screen's power consumption will cost you over time. 
+                  Calculate how much your screen&apos;s power consumption will cost you over time. 
                   Enter your measurements and electricity rates below.
                 </p>
               </div>
