@@ -405,8 +405,8 @@ export default function Home() {
               <section className="animate-fadeInUp" style={{ animationDelay: '0.1s' }}>
                 <h3 className="text-xl font-semibold text-white mb-3">📋 Overview</h3>
                 <p className="text-gray-300 leading-relaxed">
-                  This guide will help you measure your screen's power consumption using digital energy meters. 
-                  Understanding your display's energy usage is crucial for optimizing power efficiency and calculating operational costs.
+                  This guide will help you measure your screen&apos;s power consumption using digital energy meters. 
+                  Understanding your display&apos;s energy usage is crucial for optimizing power efficiency and calculating operational costs.
                 </p>
               </section>
 
@@ -427,7 +427,7 @@ export default function Home() {
                 <div className="space-y-4">
                   <div className="bg-gray-900/50 border border-gray-700/50 p-4 rounded-lg hover:bg-gray-800/50 transition-colors duration-200">
                     <h4 className="font-semibold text-white mb-2">Step 1: Setup</h4>
-                    <p className="text-gray-300">Connect your digital power meter between the wall outlet and your device's power cable.</p>
+                    <p className="text-gray-300">Connect your digital power meter between the wall outlet and your device&apos;s power cable.</p>
                   </div>
                   
                   <div className="bg-gray-900/50 border border-gray-700/50 p-4 rounded-lg hover:bg-gray-800/50 transition-colors duration-200">
@@ -519,7 +519,7 @@ export default function Home() {
               {/* Introduction */}
               <div className="bg-blue-900/30 border-l-4 border-blue-400 p-4 rounded-r-lg animate-fadeInUp" style={{ animationDelay: '0.1s' }}>
                 <p className="text-gray-300">
-                  Calculate how much your screen's power consumption will cost you over time. 
+                  Calculate how much your screen&apos;s power consumption will cost you over time. 
                   Enter your measurements and electricity rates below.
                 </p>
               </div>
