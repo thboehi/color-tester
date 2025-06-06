@@ -286,6 +286,9 @@ export default function Home() {
       
       {/* Contenu principal avec contrôles */}
       <main className={`flex flex-col gap-6 items-center justify-center min-h-screen py-2 font-[family-name:var(--font-geist-mono)] transition-opacity duration-500 ${controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-200 text-center">
+          Color Stresser
+        </h1>
         {/* Boutons de couleurs */}
         <button onClick={() => setBgColor("bg-black")} className="bg-white/0 hover:bg-gray-400/10 flex items-center justify-between px-8 py-1 z-50 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all duration-500 ">
           <p className="text-gray-500">Black</p>
@@ -389,7 +392,7 @@ export default function Home() {
             }}
           >
             {/* Header avec animation sur le bouton de fermeture */}
-            <div className="sticky top-0 bg-gray-950/95 backdrop-blur-sm border-b border-gray-700/50 px-6 py-4 flex items-center justify-between">
+            <div className="sticky z-50 top-0 bg-gray-950 backdrop-blur-sm border-b border-gray-700/50 px-6 py-4 flex items-center justify-between">
               <h2 className="text-2xl font-bold text-white">How to Measure Screen Power Consumption</h2>
               <button
                 onClick={closeHowToModal}
@@ -504,7 +507,7 @@ export default function Home() {
             }}
           >
             {/* Header avec animation sur le bouton de fermeture */}
-            <div className="sticky top-0 bg-gray-950/95 backdrop-blur-sm border-b border-gray-700/50 px-6 py-4 flex items-center justify-between flex-shrink-0">
+            <div className="sticky z-50 top-0 bg-gray-950/95 backdrop-blur-sm border-b border-gray-700/50 px-6 py-4 flex items-center justify-between flex-shrink-0">
               <h2 className="text-2xl font-bold text-white">Power Consumption Cost Calculator</h2>
               <button
                 onClick={closePriceCalculatorModal}

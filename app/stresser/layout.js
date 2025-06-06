@@ -12,19 +12,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Stresser by thbo",
+  title: "Color Stresser by thbo",
   description: "Test different colors on your screen and calculate the energy consumption",
   icons: {
     icon: "/icon.svg",
     shortcut: "/icon.svg",
   },
   openGraph: {
-    title: "Stresser by thbo",
+    title: "Color Stresser by thbo",
     type: "website",
     locale: "en_US",
     description: "Test different colors on your screen and calculate the energy consumption",
     url: "https://ct.thbo.ch/",
-    siteName: "Stresser",
+    siteName: "Color Stresser",
     images: [
       {
         url: "/og.png",
