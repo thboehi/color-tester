@@ -7,11 +7,16 @@ export default function Home() {
 
   return (
     <div className={`flex relative flex-col items-center justify-center min-h-screen bg-black`}>
-      <main className={`flex flex-col gap-6 items-center justify-center min-h-screen py-2 font-[family-name:var(--font-geist-mono)] transition-opacity duration-300 `}>
-        <Image src="/colors-tools-icon.svg" alt="Logo" width={100} height={100} className="mb-6" />
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-200 mb-4 text-center">
+      <main className={`flex flex-col gap-6 items-center justify-center font-[family-name:var(--font-geist-mono)] transition-opacity duration-300 py-16 pb-32`}>
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-200 text-center">
           Color Tools
         </h1>
+        <Image src="/colors-tools-icon.svg" alt="Logo" width={100} height={100} className="mb-0" />
+        
+        {/* By thbo */}
+        <p className="text-gray-400 text-center max-w-2xl mb-8">
+          Created by <a href="https://thbo.ch/" className="text-blue-500 hover:underline">Thomas</a>
+        </p>
         <p className="text-gray-400 text-center max-w-2xl mb-8">
           Explore my tools to analyze and stress test colors on your website. Perfect for developers and designers looking to optimize their color schemes.
         </p>
