@@ -19,25 +19,25 @@ export default function ColorDetectionSection() {
                             <div className="bg-red-900/20 border border-red-600/30 rounded-lg p-4">
                                 <h4 className="font-semibold text-red-300 mb-2">🔵 Blue Light Special Case</h4>
                                 <div className="bg-black/50 p-3 rounded font-mono text-sm">
-                                    <div className="text-green-400">// Pure blue colors were missed by luminance-only detection</div>
+                                    <div className="text-green-400">{/* Pure blue colors were missed by luminance-only detection */}</div>
                                     <div className="text-white">if (b &gt; 200 && r &lt; 120 && g &lt; 120) return false;</div>
                                 </div>
                                 <p className="text-gray-300 text-sm mt-2">
                                     Pure blue colors have relatively low calculated luminance but are visually bright. 
-                                    This special case ensures they're correctly classified as "light" colors.
+                                    This special case ensures they&apos;re correctly classified as &quot;light&quot; colors.
                                 </p>
                             </div>
 
                             <div className="bg-green-900/20 border border-green-600/30 rounded-lg p-4">
                                 <h4 className="font-semibold text-green-300 mb-2">🌈 High Saturation Detection</h4>
                                 <div className="bg-black/50 p-3 rounded font-mono text-sm">
-                                    <div className="text-green-400">// Convert to HSV color space</div>
+                                    <div className="text-green-400">{/* Convert to HSV color space */}</div>
                                     <div className="text-white">const saturation = max === 0 ? 0 : (max - min) / max;</div>
                                     <div className="text-white">const value = max;</div>
                                     <div className="text-white">if (saturation &gt; 0.8 && value &gt; 0.6) return false;</div>
                                 </div>
                                 <p className="text-gray-300 text-sm mt-2">
-                                    Highly saturated, bright colors are visually prominent and classified as "light" 
+                                    Highly saturated, bright colors are visually prominent and classified as &quot;light&quot; 
                                     regardless of their calculated luminance value.
                                 </p>
                             </div>
@@ -74,7 +74,7 @@ export default function ColorDetectionSection() {
                         <h4 className="font-semibold text-yellow-300 mb-2">🔬 Color Science Insight</h4>
                         <p className="text-gray-300">
                             This algorithm prioritizes perceptual accuracy over mathematical purity. Pure mathematical 
-                            luminance doesn't always match visual perception, especially for saturated colors like pure blue. 
+                            luminance doesn&apos;t always match visual perception, especially for saturated colors like pure blue. 
                             These adjustments ensure the classification matches human color perception.
                         </p>
                     </div>

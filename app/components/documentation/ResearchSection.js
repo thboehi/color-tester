@@ -37,9 +37,9 @@ export default function ResearchSection() {
                     <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-600/50 rounded-xl p-6">
                         <div className="flex items-start justify-between mb-4">
                             <div>
-                                <h3 className="text-xl font-semibold text-blue-300 mb-2">🎓 Master's Thesis (2025)</h3>
+                                <h3 className="text-xl font-semibold text-blue-300 mb-2">🎓 Master&apos;s Thesis (2025)</h3>
                                 <h4 className="text-lg font-medium text-white mb-2">
-                                    L'utilisation de couleurs sombres dans l'interface des sites web ou applications permet-elle une réduction significative de la consommation énergétique des écrans ?
+                                    L&apos;utilisation de couleurs sombres dans l&apos;interface des sites web ou applications permet-elle une réduction significative de la consommation énergétique des écrans ?
                                 </h4>
                                 <p className="text-gray-300 text-sm mb-3">
                                     This tool is directly inspired by and implements concepts from this research thesis, 
@@ -125,7 +125,7 @@ export default function ResearchSection() {
                                 <div className="bg-purple-900/20 border border-purple-600/30 rounded p-4">
                                     <h4 className="font-semibold text-purple-300 mb-2">OLED Power Consumption</h4>
                                     <p className="text-gray-300 text-sm mb-2">
-                                        "Understanding OLED Display Power Draw" - Analysis of per-pixel power consumption patterns
+                                        &quot;Understanding OLED Display Power Draw&quot; - Analysis of per-pixel power consumption patterns
                                     </p>
                                     <span className="text-purple-400 text-xs">
                                         Dong et al., IEEE 2019
@@ -135,7 +135,7 @@ export default function ResearchSection() {
                                 <div className="bg-orange-900/20 border border-orange-600/30 rounded p-4">
                                     <h4 className="font-semibold text-orange-300 mb-2">Dark Mode Energy Impact</h4>
                                     <p className="text-gray-300 text-sm mb-2">
-                                        "Dark Mode vs Light Mode: Which is Better for Battery Life?" - Comprehensive mobile energy study
+                                        &quot;Dark Mode vs Light Mode: Which is Better for Battery Life?&quot; - Comprehensive mobile energy study
                                     </p>
                                     <span className="text-orange-400 text-xs">
                                         Purdue University, 2021
@@ -216,8 +216,8 @@ export default function ResearchSection() {
                             <div>
                                 <h5 className="font-semibold text-gray-300 mb-2">Color Science</h5>
                                 <ul className="space-y-1 text-gray-400">
-                                    <li>• Hunt, R.W.G. "The Reproduction of Colour" (6th Edition)</li>
-                                    <li>• Fairchild, M.D. "Color Appearance Models" (3rd Edition)</li>
+                                    <li>• Hunt, R.W.G. &quot;The Reproduction of Colour&quot; (6th Edition)</li>
+                                    <li>• Fairchild, M.D. &quot;Color Appearance Models&quot; (3rd Edition)</li>
                                     <li>• CIE Technical Report on Colorimetry Standards</li>
                                 </ul>
                             </div>

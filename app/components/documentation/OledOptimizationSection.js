@@ -73,7 +73,7 @@ export default function OledOptimizationSection() {
                                 </div>
                                 <p className="text-gray-300 text-sm">
                                     Pure blues have low calculated luminance but appear bright to human vision. 
-                                    This ensures they're correctly classified as "light" colors.
+                                    This ensures they&apos;re correctly classified as &quot;light&quot; colors.
                                 </p>
                             </div>
 
