@@ -1,5 +1,7 @@
 "use client";
 
+import BadgeGenerator from './BadgeGenerator';
+
 export default function ColorResults({ results }) {
     // Vérifications défensives
     if (!results) return null;
@@ -50,7 +52,7 @@ export default function ColorResults({ results }) {
     const energyInfo = getEnergyEfficiency();
     
     return (
-        <div className="space-y-6 w-full">
+        <div className="space-y-8 animate-fadeInUp">
             {/* Recommandations énergétiques améliorées */}
             <div className="bg-white/0 backdrop-blur-sm border border-gray-400/20 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-gray-400 mb-4 text-center">
@@ -89,29 +91,39 @@ export default function ColorResults({ results }) {
                     </div>
                 </div>
             </div>
-            
-            {/* Screenshot du site */}
-            {screenshot && (
-                <div className="bg-white/0 backdrop-blur-sm border border-gray-400/20 rounded-2xl p-6 flex flex-col items-center">
-                    <h3 className="text-xl font-semibold text-gray-400 mb-4 text-center">
-                        Website Screenshot
-                    </h3>
-                    <div className="w-fit relative overflow-hidden rounded-xl border border-gray-400/20">
-                        <img 
-                            src={screenshot} 
-                            alt="Website screenshot" 
-                            className="w-full h-auto max-h-96 object-contain bg-black"
-                        />
-                    </div>
-                    {metadata && (
-                        <div className="mt-3 text-xs text-gray-500 text-center">
-                            Captured: {new Date(metadata.timestamp).toLocaleString()} • 
-                            Size: {(metadata.screenshotSize / 1024).toFixed(0)} KB
-                        </div>
-                    )}
-                </div>
-            )}
 
+            {/* Badge Generator - REPOSITIONNÉ EN HAUT avec design amélioré */}
+            <div className="relative">
+                {/* Effet de brillance en arrière-plan */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-green-500/10 rounded-2xl blur-xl"></div>
+                <div className="relative bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-lg border-2 border-gray-600/50 rounded-2xl p-6 shadow-2xl">
+                    {/* Header avec badge premium */}
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <div className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-3 py-1 rounded-full text-xs font-bold">
+                                ✨ NEW
+                            </div>
+                            <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
+                                Share Your Score
+                            </h3>
+                        </div>
+                        <div className="text-3xl animate-pulse">🏆</div>
+                    </div>
+
+                    {/* Call to action principal */}
+                    <div className="text-center mb-6 p-4 bg-gradient-to-r from-blue-900/30 to-green-900/30 rounded-xl border border-blue-500/30">
+                        <p className="text-lg font-semibold text-white mb-2">
+                            🚀 Showcase your energy-efficient website!
+                        </p>
+                        <p className="text-gray-300 text-sm">
+                            Get a beautiful badge that links back to Color Tools and drives more traffic to your site
+                        </p>
+                    </div>
+
+                    <BadgeGenerator results={results} />
+                </div>
+            </div>
+            
             {/* Ratio Dark/Light */}
             <div className="bg-white/0 backdrop-blur-sm border border-gray-400/20 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-gray-400 mb-4 text-center">
@@ -136,6 +148,28 @@ export default function ColorResults({ results }) {
                     <span>{lightPercentage.toFixed(1)}% Light Colors</span>
                 </div>
             </div>
+
+            {/* Screenshot du site */}
+            {screenshot && (
+                <div className="bg-white/0 backdrop-blur-sm border border-gray-400/20 rounded-2xl p-6 flex flex-col items-center">
+                    <h3 className="text-xl font-semibold text-gray-400 mb-4 text-center">
+                        Website Screenshot
+                    </h3>
+                    <div className="w-fit relative overflow-hidden rounded-xl border border-gray-400/20">
+                        <img 
+                            src={screenshot} 
+                            alt="Website screenshot" 
+                            className="w-full h-auto max-h-96 object-contain bg-black"
+                        />
+                    </div>
+                    {metadata && (
+                        <div className="mt-3 text-xs text-gray-500 text-center">
+                            Captured: {new Date(metadata.timestamp).toLocaleString()} • 
+                            Size: {(metadata.screenshotSize / 1024).toFixed(0)} KB
+                        </div>
+                    )}
+                </div>
+            )}
             
             {/* Couleurs dominantes */}
             <div className="bg-white/0 backdrop-blur-sm border border-gray-400/20 rounded-2xl p-6">
@@ -190,7 +224,6 @@ export default function ColorResults({ results }) {
                     </div>
                 </div>
             </div>
-
         </div>
     );
 }

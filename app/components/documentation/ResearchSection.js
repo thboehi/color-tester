@@ -38,16 +38,16 @@ export default function ResearchSection() {
                         <div className="flex items-start justify-between mb-4">
                             <div>
                                 <h3 className="text-xl font-semibold text-blue-300 mb-2">🎓 Master&apos;s Thesis (2025)</h3>
-                                <h4 className="text-lg font-medium text-white mb-2">
-                                    L&apos;utilisation de couleurs sombres dans l&apos;interface des sites web ou applications permet-elle une réduction significative de la consommation énergétique des écrans ?
+                                <h4 className="text-lg font-medium text-white mb-2 italic">
+                                    &quot; Does the Use of Dark Colors in Website or Application Interfaces Significantly Reduce Screen Energy Consumption ? &quot;
                                 </h4>
                                 <p className="text-gray-300 text-sm mb-3">
                                     This tool is directly inspired by and implements concepts from this research thesis, 
                                     which explores the energy impact of dark color usage in web interfaces.
                                 </p>
                                 <div className="flex items-center gap-4 text-sm text-gray-400">
-                                    <span>📅 Dernière modification: {memoireLastModified || 'Chargement...'}</span>
-                                    <span>🎯 En cours de rédaction</span>
+                                    <span>📅 Last modified: {memoireLastModified || 'Loading...'}</span>
+                                    <span>🎯 Currently being written</span>
                                 </div>
                             </div>
                         </div>
@@ -55,24 +55,24 @@ export default function ResearchSection() {
                         <div className="flex gap-3">
                             <button
                                 onClick={() => setShowMemoire(!showMemoire)}
-                                className="px-4 py-2 bg-blue-600/20 border border-blue-500/30 rounded-lg text-blue-300 hover:bg-blue-600/30 transition-colors text-sm"
+                                className="px-4 py-2 bg-blue-600/20 border border-blue-500/30 rounded-lg text-blue-300 hover:bg-blue-600/30 transition-colors text-sm cursor-pointer"
                             >
-                                {showMemoire ? '📖 Masquer le mémoire' : '📖 Lire le mémoire'}
+                                {showMemoire ? '📖 Hide the thesis' : '📖 Read the thesis (french)'}
                             </button>
                             <a
                                 href="/memoire_boehiT.pdf"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="px-4 py-2 bg-purple-600/20 border border-purple-500/30 rounded-lg text-purple-300 hover:bg-purple-600/30 transition-colors text-sm"
+                                className="px-4 py-2 bg-purple-600/20 border border-purple-500/30 rounded-lg text-purple-300 hover:bg-purple-600/30 transition-colors text-sm cursor-pointer"
                             >
-                                📄 Ouvrir dans un nouvel onglet
+                                📄 Open in a new tab
                             </a>
                         </div>
 
                         {showMemoire && (
                             <div className="mt-6 border border-gray-600/30 rounded-lg overflow-hidden">
                                 <div className="bg-gray-800/50 p-3 flex items-center justify-between">
-                                    <span className="text-gray-300 text-sm">Mémoire - Version PDF intégrée</span>
+                                    <span className="text-gray-300 text-sm">Master's Thesis - PDF Integrated version</span>
                                     <button
                                         onClick={() => setShowMemoire(false)}
                                         className="text-gray-400 hover:text-white transition-colors"
@@ -82,7 +82,7 @@ export default function ResearchSection() {
                                 </div>
                                 <iframe
                                     src="/memoire_boehiT.pdf"
-                                    className="w-full h-96 bg-white"
+                                    className="w-full h-[1200px] bg-white"
                                     title="Mémoire - L'utilisation de couleurs sombres dans l'interface des sites web"
                                 />
                             </div>

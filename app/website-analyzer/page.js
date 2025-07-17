@@ -56,6 +56,7 @@ export default function WebsiteTester() {
         const savedHistory = localStorage.getItem('website-analysis-history');
         if (savedHistory) {
             setAnalysisHistory(JSON.parse(savedHistory));
+            console.log(JSON.parse(savedHistory));
         }
     }, []);
 
@@ -385,7 +386,7 @@ export default function WebsiteTester() {
                 />
             )}
 
-            <main className="flex flex-col items-center justify-start pt-20 pb-32 px-4 md:px-8 font-[family-name:var(--font-geist-mono)]">
+            <main className="flex flex-col items-center justify-start pt-20 pb-32 px-4 md:px-8 font-[family-name:var(--font-geist-mono)] min-h-screen">
                 <div className="max-w-4xl w-full space-y-6 md:space-y-8">
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-400 text-center">
                         Website Color Analyzer

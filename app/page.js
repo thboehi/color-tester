@@ -20,18 +20,45 @@ export default function Home() {
         <p className="text-gray-400 text-center max-w-2xl mb-8">
           Explore my tools to analyze and stress test colors on your website. Perfect for developers and designers looking to optimize their color schemes.
         </p>
-        <DynamicButton
-          title="Color Stresser"
-          description="Test energy consumption with different screen colors and patterns"
-          href={'/stresser'}
-          variant="primary"
-        />
-        <DynamicButton
-          title="Website Tester"
-          description="Test the ratio between dark and light colors on your website"
-          href={'/website-analyzer'}
-          variant="primary"
-        />
+        
+        <div className="flex flex-wrap justify-center gap-8 my-8">
+          <div className="group flex flex-col items-center text-center max-w-xs">
+            <a
+              href="/website-analyzer"
+              className="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all duration-300 text-gray-500 hover:scale-105 active:scale-95 mb-3"
+            >
+              🔍 Website Analyzer
+            </a>
+            <p className="text-gray-500 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-150 hidden md:block">
+              Analyze the ratio between dark and light colors on any website to optimize for OLED energy efficiency
+            </p>
+          </div>
+          
+          <div className="group flex flex-col items-center text-center max-w-xs">
+            <a
+              href="/stresser"
+              className="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all duration-300 text-gray-500 hover:scale-105 active:scale-95 mb-3"
+            >
+              ⚡ Color Stresser
+            </a>
+            <p className="text-gray-500 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-150 hidden md:block">
+              Test different colors and patterns to see their energy consumption impact on OLED displays
+            </p>
+          </div>
+          
+          <div className="group flex flex-col items-center text-center max-w-xs">
+            <a
+              href="/documentation"
+              className="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all duration-300 text-gray-500 hover:scale-105 active:scale-95 mb-3"
+            >
+              🔬 Algorithm Documentation
+            </a>
+            <p className="text-gray-500 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-150 hidden md:block">
+              Deep dive into the algorithm behind color analysis, luminance calculations, and OLED optimizations
+            </p>
+          </div>
+        </div>
+        
         <DynamicButton
           title="Support"
           description="Help me improve and maintain these tools"
@@ -39,26 +66,6 @@ export default function Home() {
           variant="secondary"
           openInNewTab={true}
         />
-        <div className="flex flex-wrap justify-center gap-3 mt-8">
-          <a
-            href="/website-analyzer"
-            className="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all duration-300 text-gray-500 hover:scale-105 active:scale-95"
-          >
-            🔍 Website Analyzer
-          </a>
-          <a
-            href="/stresser"
-            className="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all duration-300 text-gray-500 hover:scale-105 active:scale-95"
-          >
-            ⚡ Color Stresser
-          </a>
-          <a
-            href="/algorithm"
-            className="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all duration-300 text-gray-500 hover:scale-105 active:scale-95"
-          >
-            🔬 Algorithm Documentation
-          </a>
-        </div>
       </main>
       <Footer />
     </div>
