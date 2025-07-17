@@ -72,7 +72,7 @@ export default function ResearchSection() {
                         {showMemoire && (
                             <div className="mt-6 border border-gray-600/30 rounded-lg overflow-hidden">
                                 <div className="bg-gray-800/50 p-3 flex items-center justify-between">
-                                    <span className="text-gray-300 text-sm">Master's Thesis - PDF Integrated version</span>
+                                    <span className="text-gray-300 text-sm">Master&apos;s Thesis - PDF Integrated version</span>
                                     <button
                                         onClick={() => setShowMemoire(false)}
                                         className="text-gray-400 hover:text-white transition-colors"
