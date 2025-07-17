@@ -16,7 +16,7 @@ export default function SamplingSection() {
                         <div className="bg-gray-800/50 border border-gray-600/50 rounded-lg p-6">
                             <h3 className="text-xl font-semibold text-white mb-4">⚡ Sampling Rate</h3>
                             <div className="bg-black/50 p-4 rounded font-mono text-sm">
-                                <div className="text-green-400">&frasl;&frasl; Sample every 12th pixel</div>
+                                <div className="text-green-400">&#47;&#47; Sample every 12th pixel</div>
                                 <div className="text-white">const samplingRate = 12;</div>
                                 <div className="text-white">for (let i = 0; i &lt; data.length; i += samplingRate)</div>
                             </div>
@@ -59,7 +59,7 @@ export default function SamplingSection() {
                         </p>
                         
                         <div className="bg-black/50 p-4 rounded font-mono text-sm overflow-x-auto">
-                            <div className="text-green-400">&frasl;&frasl; Group colors by 10-unit buckets for dominant color analysis</div>
+                            <div className="text-green-400">&#47;&#47; Group colors by 10-unit buckets for dominant color analysis</div>
                             <div className="text-white">const colorKey = `$&#123;Math.floor(r/10)*10&#125;-$&#123;Math.floor(g/10)*10&#125;-$&#123;Math.floor(b/10)*10&#125;`;</div>
                             <div className="text-white">colorMap.set(colorKey, (colorMap.get(colorKey) || 0) + 1);</div>
                         </div>

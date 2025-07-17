@@ -68,7 +68,7 @@ export default function OledOptimizationSection() {
                                 <h4 className="font-semibold text-blue-300 mb-3">🔵 Blue Detection Fix</h4>
                                 <div className="bg-black/50 p-3 rounded font-mono text-sm mb-3">
                                     <div className="text-white">if (b &gt; 200 && r &lt; 120 && g &lt; 120) &#123;</div>
-                                    <div className="text-white">  return false; &frasl;&frasl; Visually bright</div>
+                                    <div className="text-white">  return false; &#47;&#47; Visually bright</div>
                                     <div className="text-white">&#125;</div>
                                 </div>
                                 <p className="text-gray-300 text-sm">
