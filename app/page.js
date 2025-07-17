@@ -39,6 +39,26 @@ export default function Home() {
           variant="secondary"
           openInNewTab={true}
         />
+        <div className="flex flex-wrap justify-center gap-3 mt-8">
+          <a
+            href="/website-analyzer"
+            className="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all duration-300 text-gray-500 hover:scale-105 active:scale-95"
+          >
+            🔍 Website Analyzer
+          </a>
+          <a
+            href="/stresser"
+            className="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all duration-300 text-gray-500 hover:scale-105 active:scale-95"
+          >
+            ⚡ Color Stresser
+          </a>
+          <a
+            href="/algorithm"
+            className="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full backdrop-blur-sm border border-gray-400/20 cursor-pointer transition-all duration-300 text-gray-500 hover:scale-105 active:scale-95"
+          >
+            🔬 Algorithm Documentation
+          </a>
+        </div>
       </main>
       <Footer />
     </div>
