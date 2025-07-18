@@ -4,19 +4,23 @@ import { toast } from 'react-toastify';
 
 export default function BadgeGenerator({ results }) {
     const [isOpen, setIsOpen] = useState(false);
-    const [copied, setCopied] = useState({ badge: false, markdown: false, html: false });
+    const [copied, setCopied] = useState({ badge: false, markdown: false, html: false, badgeSmall: false, markdownSmall: false, htmlSmall: false });
     
     if (!results || !results.metadata) return null;
     
     const score = Math.round(results.darkPercentage || 0);
     const website = results.metadata.url;
     const badgeUrl = `${window.location.origin}/api/badge?website=${encodeURIComponent(website)}&score=${score}`;
+    const badgeUrlSmall = `${window.location.origin}/api/badge?website=${encodeURIComponent(website)}&score=${score}&size=small`;
     
     // Différents formats de badge
     const formats = {
         badge: badgeUrl,
         markdown: `[![OLED Energy Efficiency](${badgeUrl})](https://ct.thbo.ch)`,
-        html: `<a href="https://ct.thbo.ch" target="_blank"><img src="${badgeUrl}" alt="OLED Energy Efficiency Badge" /></a>`
+        html: `<a href="https://ct.thbo.ch" target="_blank"><img src="${badgeUrl}" alt="OLED Energy Efficiency Badge" /></a>`,
+        badgeSmall: badgeUrlSmall,
+        markdownSmall: `[![OLED Energy Efficiency](${badgeUrlSmall})](https://ct.thbo.ch)`,
+        htmlSmall: `<a href="https://ct.thbo.ch" target="_blank"><img src="${badgeUrlSmall}" alt="OLED Energy Efficiency Badge" /></a>`
     };
 
     const copyToClipboard = async (text, type) => {
@@ -56,28 +60,49 @@ export default function BadgeGenerator({ results }) {
             
             {isOpen && (
                 <div className="space-y-6 animate-fadeInUp">
-                    {/* Aperçu du badge */}
+                    {/* Aperçu des badges */}
                     <div className="text-center space-y-4">
                         <p className="text-gray-300 text-sm">
                             Show off your website&apos;s OLED energy efficiency!
                         </p>
-                        <div className="flex justify-center">
-                            <a 
-                                href="https://ct.thbo.ch" 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="hover:scale-105 transition-transform duration-200"
-                            >
-                                <img 
-                                    src={badgeUrl} 
-                                    alt="OLED Energy Efficiency Badge" 
-                                    className="rounded-lg shadow-lg"
-                                />
-                            </a>
+                        
+                        {/* Badge normal */}
+                        <div className="space-y-2">
+                            <p className="text-xs text-gray-400 font-medium">Regular Badge</p>
+                            <div className="flex justify-center">
+                                <a 
+                                    href="https://ct.thbo.ch" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="hover:scale-105 transition-transform duration-200"
+                                >
+                                    <img 
+                                        src={badgeUrl} 
+                                        alt="OLED Energy Efficiency Badge" 
+                                        className="rounded-lg shadow-lg"
+                                    />
+                                </a>
+                            </div>
                         </div>
-                        <p className="text-xs text-gray-500">
-                            ↑ Click the badge to visit Color Tools
-                        </p>
+
+                        {/* Badge small */}
+                        <div className="space-y-2">
+                            <p className="text-xs text-gray-400 font-medium">Compact Badge</p>
+                            <div className="flex justify-center">
+                                <a 
+                                    href="https://ct.thbo.ch" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="hover:scale-105 transition-transform duration-200"
+                                >
+                                    <img 
+                                        src={badgeUrlSmall} 
+                                        alt="OLED Energy Efficiency Badge Small" 
+                                        className="rounded-lg shadow-lg"
+                                    />
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Appel à l'action */}
@@ -94,79 +119,155 @@ export default function BadgeGenerator({ results }) {
                             <li>• Automatically links to Color Tools for more analyses</li>
                             <li>• Shows your environmental consciousness</li>
                             <li>• Updates automatically if you re-analyze</li>
+                            <li>• <span className="text-orange-400">Compact version</span> perfect for sidebars and tight spaces</li>
                         </ul>
                     </div>
 
-                    {/* Options de copie */}
-                    <div className="space-y-4">
-                        <div className="text-gray-300 text-sm font-medium">
-                            Copy badge code:
-                        </div>
-                        
-                        {/* Direct Image URL */}
-                        <div className="bg-gray-800/50 border border-gray-600/30 rounded-lg p-4">
-                            <div className="flex items-center justify-between mb-2">
-                                <span className="text-sm font-medium text-gray-300">Direct Image URL</span>
-                                <button
-                                    onClick={() => copyToClipboard(formats.badge, 'badge')}
-                                    className={`px-3 py-1 text-xs rounded-lg transition-all ${
-                                        copied.badge 
-                                            ? 'bg-green-600/20 text-green-400 border border-green-500/30' 
-                                            : 'bg-gray-700/50 text-gray-400 hover:bg-gray-700 border border-gray-600/30'
-                                    }`}
-                                >
-                                    {copied.badge ? '✓ Copied' : 'Copy'}
-                                </button>
+                    {/* Options de copie - Version normale */}
+                    <div className="space-y-6">
+                        <div className="space-y-4">
+                            <div className="text-gray-300 text-sm font-medium flex items-center gap-2">
+                                📏 Regular Badge (320x120px)
                             </div>
-                            <code className="text-xs text-gray-400 break-all block font-mono">
-                                {formats.badge}
-                            </code>
+                            
+                            {/* Direct Image URL */}
+                            <div className="bg-gray-800/50 border border-gray-600/30 rounded-lg p-4">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-sm font-medium text-gray-300">Direct Image URL</span>
+                                    <button
+                                        onClick={() => copyToClipboard(formats.badge, 'badge')}
+                                        className={`px-3 py-1 text-xs rounded-lg transition-all ${
+                                            copied.badge 
+                                                ? 'bg-green-600/20 text-green-400 border border-green-500/30' 
+                                                : 'bg-gray-700/50 text-gray-400 hover:bg-gray-700 border border-gray-600/30'
+                                        }`}
+                                    >
+                                        {copied.badge ? '✓ Copied' : 'Copy'}
+                                    </button>
+                                </div>
+                                <code className="text-xs text-gray-400 break-all block font-mono">
+                                    {formats.badge}
+                                </code>
+                            </div>
+
+                            {/* HTML avec lien */}
+                            <div className="bg-gray-800/50 border border-gray-600/30 rounded-lg p-4">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-sm font-medium text-gray-300">HTML (Recommended)</span>
+                                    <button
+                                        onClick={() => copyToClipboard(formats.html, 'html')}
+                                        className={`px-3 py-1 text-xs rounded-lg transition-all ${
+                                            copied.html 
+                                                ? 'bg-green-600/20 text-green-400 border border-green-500/30' 
+                                                : 'bg-gray-700/50 text-gray-400 hover:bg-gray-700 border border-gray-600/30'
+                                        }`}
+                                    >
+                                        {copied.html ? '✓ Copied' : 'Copy'}
+                                    </button>
+                                </div>
+                                <code className="text-xs text-gray-400 break-all block font-mono">
+                                    {formats.html}
+                                </code>
+                                <p className="text-xs text-green-400 mt-2">
+                                    ✓ Includes clickable link to Color Tools
+                                </p>
+                            </div>
+
+                            {/* Markdown */}
+                            <div className="bg-gray-800/50 border border-gray-600/30 rounded-lg p-4">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-sm font-medium text-gray-300">Markdown (GitHub/Docs)</span>
+                                    <button
+                                        onClick={() => copyToClipboard(formats.markdown, 'markdown')}
+                                        className={`px-3 py-1 text-xs rounded-lg transition-all ${
+                                            copied.markdown 
+                                                ? 'bg-green-600/20 text-green-400 border border-green-500/30' 
+                                                : 'bg-gray-700/50 text-gray-400 hover:bg-gray-700 border border-gray-600/30'
+                                        }`}
+                                    >
+                                        {copied.markdown ? '✓ Copied' : 'Copy'}
+                                    </button>
+                                </div>
+                                <code className="text-xs text-gray-400 break-all block font-mono">
+                                    {formats.markdown}
+                                </code>
+                                <p className="text-xs text-blue-400 mt-2">
+                                    ✓ Perfect for README files and documentation
+                                </p>
+                            </div>
                         </div>
 
-                        {/* HTML avec lien */}
-                        <div className="bg-gray-800/50 border border-gray-600/30 rounded-lg p-4">
-                            <div className="flex items-center justify-between mb-2">
-                                <span className="text-sm font-medium text-gray-300">HTML (Recommended)</span>
-                                <button
-                                    onClick={() => copyToClipboard(formats.html, 'html')}
-                                    className={`px-3 py-1 text-xs rounded-lg transition-all ${
-                                        copied.html 
-                                            ? 'bg-green-600/20 text-green-400 border border-green-500/30' 
-                                            : 'bg-gray-700/50 text-gray-400 hover:bg-gray-700 border border-gray-600/30'
-                                    }`}
-                                >
-                                    {copied.html ? '✓ Copied' : 'Copy'}
-                                </button>
+                        {/* Options de copie - Version compact */}
+                        <div className="space-y-4">
+                            <div className="text-gray-300 text-sm font-medium flex items-center gap-2">
+                                📱 Compact Badge (200x80px) <span className="text-xs bg-orange-500/20 text-orange-400 px-2 py-1 rounded">SMALL</span>
                             </div>
-                            <code className="text-xs text-gray-400 break-all block font-mono">
-                                {formats.html}
-                            </code>
-                            <p className="text-xs text-green-400 mt-2">
-                                ✓ Includes clickable link to Color Tools
-                            </p>
-                        </div>
+                            
+                            {/* Direct Image URL Small */}
+                            <div className="bg-gray-800/50 border border-gray-600/30 rounded-lg p-4">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-sm font-medium text-gray-300">Direct Image URL</span>
+                                    <button
+                                        onClick={() => copyToClipboard(formats.badgeSmall, 'badgeSmall')}
+                                        className={`px-3 py-1 text-xs rounded-lg transition-all ${
+                                            copied.badgeSmall 
+                                                ? 'bg-green-600/20 text-green-400 border border-green-500/30' 
+                                                : 'bg-gray-700/50 text-gray-400 hover:bg-gray-700 border border-gray-600/30'
+                                        }`}
+                                    >
+                                        {copied.badgeSmall ? '✓ Copied' : 'Copy'}
+                                    </button>
+                                </div>
+                                <code className="text-xs text-gray-400 break-all block font-mono">
+                                    {formats.badgeSmall}
+                                </code>
+                            </div>
 
-                        {/* Markdown */}
-                        <div className="bg-gray-800/50 border border-gray-600/30 rounded-lg p-4">
-                            <div className="flex items-center justify-between mb-2">
-                                <span className="text-sm font-medium text-gray-300">Markdown (GitHub/Docs)</span>
-                                <button
-                                    onClick={() => copyToClipboard(formats.markdown, 'markdown')}
-                                    className={`px-3 py-1 text-xs rounded-lg transition-all ${
-                                        copied.markdown 
-                                            ? 'bg-green-600/20 text-green-400 border border-green-500/30' 
-                                            : 'bg-gray-700/50 text-gray-400 hover:bg-gray-700 border border-gray-600/30'
-                                    }`}
-                                >
-                                    {copied.markdown ? '✓ Copied' : 'Copy'}
-                                </button>
+                            {/* HTML avec lien Small */}
+                            <div className="bg-gray-800/50 border border-gray-600/30 rounded-lg p-4">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-sm font-medium text-gray-300">HTML (Recommended)</span>
+                                    <button
+                                        onClick={() => copyToClipboard(formats.htmlSmall, 'htmlSmall')}
+                                        className={`px-3 py-1 text-xs rounded-lg transition-all ${
+                                            copied.htmlSmall 
+                                                ? 'bg-green-600/20 text-green-400 border border-green-500/30' 
+                                                : 'bg-gray-700/50 text-gray-400 hover:bg-gray-700 border border-gray-600/30'
+                                        }`}
+                                    >
+                                        {copied.htmlSmall ? '✓ Copied' : 'Copy'}
+                                    </button>
+                                </div>
+                                <code className="text-xs text-gray-400 break-all block font-mono">
+                                    {formats.htmlSmall}
+                                </code>
+                                <p className="text-xs text-orange-400 mt-2">
+                                    ✓ Perfect for sidebars and footers
+                                </p>
                             </div>
-                            <code className="text-xs text-gray-400 break-all block font-mono">
-                                {formats.markdown}
-                            </code>
-                            <p className="text-xs text-blue-400 mt-2">
-                                ✓ Perfect for README files and documentation
-                            </p>
+
+                            {/* Markdown Small */}
+                            <div className="bg-gray-800/50 border border-gray-600/30 rounded-lg p-4">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-sm font-medium text-gray-300">Markdown (GitHub/Docs)</span>
+                                    <button
+                                        onClick={() => copyToClipboard(formats.markdownSmall, 'markdownSmall')}
+                                        className={`px-3 py-1 text-xs rounded-lg transition-all ${
+                                            copied.markdownSmall 
+                                                ? 'bg-green-600/20 text-green-400 border border-green-500/30' 
+                                                : 'bg-gray-700/50 text-gray-400 hover:bg-gray-700 border border-gray-600/30'
+                                        }`}
+                                    >
+                                        {copied.markdownSmall ? '✓ Copied' : 'Copy'}
+                                    </button>
+                                </div>
+                                <code className="text-xs text-gray-400 break-all block font-mono">
+                                    {formats.markdownSmall}
+                                </code>
+                                <p className="text-xs text-orange-400 mt-2">
+                                    ✓ Discrete option for documentation
+                                </p>
+                            </div>
                         </div>
                     </div>
 

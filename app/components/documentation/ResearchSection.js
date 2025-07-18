@@ -57,7 +57,7 @@ export default function ResearchSection() {
                                 onClick={() => setShowMemoire(!showMemoire)}
                                 className="px-4 py-2 bg-blue-600/20 border border-blue-500/30 rounded-lg text-blue-300 hover:bg-blue-600/30 transition-colors text-sm cursor-pointer"
                             >
-                                {showMemoire ? '📖 Hide the thesis' : '📖 Read the thesis (french)'}
+                                {showMemoire ? '📖 Hide the thesis' : '📘 Read the Thesis ( French )'}
                             </button>
                             <a
                                 href="/memoire_boehiT.pdf"

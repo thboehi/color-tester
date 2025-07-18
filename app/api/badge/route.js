@@ -4,6 +4,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const website = searchParams.get('website') || 'Unknown Website';
     const score = parseInt(searchParams.get('score')) || 0;
+    const size = searchParams.get('size'); // Nouveau paramètre
     
     // Nettoyer l'URL pour l'affichage
     const cleanUrl = website.replace(/^https?:\/\//, '').replace(/\/$/, '');
@@ -30,6 +31,58 @@ export async function GET(request) {
     // URL complète vers le logo (nécessaire pour l'intégration externe)
     const logoUrl = `https://ct.thbo.ch/colors-tools-icon.svg`;
 
+    // Version small/minimaliste
+    if (size === 'small') {
+        const svg = `
+            <svg width="200" height="80" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:${bgColor};stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:${bgColor};stop-opacity:0.8" />
+                    </linearGradient>
+                    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="rgba(0,0,0,0.3)"/>
+                    </filter>
+                </defs>
+                
+                <!-- Background -->
+                <rect width="200" height="80" rx="8" fill="url(#bg)" filter="url(#shadow)"/>
+                
+                <!-- Dark overlay for contrast -->
+                <rect width="200" height="80" rx="8" fill="rgba(0,0,0,0.1)"/>
+                
+                <!-- Score principal -->
+                <text x="12" y="28" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace" font-size="18" font-weight="bold" fill="${textColor}">
+                    ${score}% ${emoji}
+                </text>
+                
+                <!-- Message court -->
+                <text x="12" y="45" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace" font-size="10" font-weight="500" fill="${textColor}" opacity="0.9">
+                    ${message}
+                </text>
+                
+                <!-- Attribution minimale -->
+                <text x="12" y="62" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace" font-size="7" font-weight="400" fill="${textColor}" opacity="0.7">
+                    Color Tools
+                </text>
+                
+                <!-- Logo plus petit -->
+                <image x="165" y="25" width="20" height="20" href="${logoUrl}" opacity="0.8"/>
+            </svg>
+        `;
+
+        return new NextResponse(svg, {
+            headers: {
+                'Content-Type': 'image/svg+xml',
+                'Cache-Control': 'public, max-age=3600',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET',
+                'Access-Control-Allow-Headers': 'Content-Type',
+            },
+        });
+    }
+
+    // Version normale (existante)
     const svg = `
         <svg width="320" height="120" xmlns="http://www.w3.org/2000/svg">
             <defs>
