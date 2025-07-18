@@ -147,6 +147,27 @@ With the environmental impact of digital technology becoming increasingly concer
 
 ---
 
-📧 **Contact**: [thomas@thbo.ch](mailto:thoma@thbo.ch)  
+## License
+
+This project is licensed under **Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)**.
+
+**What this means:**
+- ✅ **You are free to:** Use, copy, modify and distribute this code
+- ✅ **Attribution required:** You must credit and cite this work appropriately
+- ✅ **Educational and research use:** Fully authorized for academic and personal projects
+- ❌ **No commercial use:** Commercial use, resale or profit generation is prohibited
+- ❌ **No warranty:** The software is provided "as is" without any warranty
+
+**How to cite this work:**
+```
+Boehi, T. (2025). Color Tools Frontend - OLED Energy Efficiency Analyzer. 
+SAE Institute Geneva. Available at: https://github.com/thboehi/color-tester
+```
+
+For commercial license requests, please contact: [thoma@thbo.ch](mailto:thoma@thbo.ch)
+
+---
+
+📧 **Contact**: [thoma@thbo.ch](mailto:thoma@thbo.ch)  
 🌐 **Portfolio**: [thbo.ch](https://thbo.ch)  
 🎓 **Institution**: SAE Institute Geneva
