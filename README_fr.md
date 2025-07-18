@@ -48,7 +48,7 @@ Avec la démocratisation des écrans OLED dans les smartphones, tablettes et ord
 
 ### 1. Cloner le projet
 ```bash
-git clone https://github.com/votre-username/color-tester.git
+git clone https://github.com/thboehi/color-tester.git
 cd color-tester
 ```
 

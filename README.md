@@ -48,7 +48,7 @@ With the widespread adoption of OLED screens in smartphones, tablets, and laptop
 
 ### 1. Clone the project
 ```bash
-git clone https://github.com/your-username/color-tester.git
+git clone https://github.com/thboehi/color-tester.git
 cd color-tester
 ```
 
@@ -82,7 +82,7 @@ The project will be accessible at [http://localhost:3000](http://localhost:3000)
 
 ⚠️ **Important note**: For website analysis to work, you must also start the backend separately.
 
-👉 **[Link to Color Tools API backend](https://github.com/your-username/color-tools-backend)**
+👉 **[Link to Color Tools API backend](https://github.com/thboehi/color-tools-backend)**
 
 The backend handles website analysis via Puppeteer and must be running on port 3001 for the frontend application to work properly.
 
@@ -147,6 +147,6 @@ With the environmental impact of digital technology becoming increasingly concer
 
 ---
 
-📧 **Contact**: [thomas@thbo.ch](mailto:thomas@thbo.ch)  
+📧 **Contact**: [thomas@thbo.ch](mailto:thoma@thbo.ch)  
 🌐 **Portfolio**: [thbo.ch](https://thbo.ch)  
 🎓 **Institution**: SAE Institute Geneva
