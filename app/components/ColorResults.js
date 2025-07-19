@@ -1,8 +1,12 @@
 "use client";
 
+import { useState } from 'react';
 import BadgeGenerator from './BadgeGenerator';
 
 export default function ColorResults({ results }) {
+    // État pour contrôler l'affichage des couleurs
+    const [showAllColors, setShowAllColors] = useState(false);
+
     // Vérifications défensives
     if (!results) return null;
 
@@ -50,6 +54,9 @@ export default function ColorResults({ results }) {
     };
 
     const energyInfo = getEnergyEfficiency();
+
+    // Déterminer combien de couleurs afficher
+    const colorsToShow = showAllColors ? dominantColors : dominantColors.slice(0, 8);
     
     return (
         <div className="space-y-8 animate-fadeInUp">
@@ -173,19 +180,68 @@ export default function ColorResults({ results }) {
             
             {/* Couleurs dominantes */}
             <div className="bg-white/0 backdrop-blur-sm border border-gray-400/20 rounded-2xl p-6">
-                <h3 className="text-xl font-semibold text-gray-400 mb-6 text-center">
-                    Dominant Colors
-                </h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {dominantColors.slice(0, 8).map((color, index) => (
-                        <div key={index} className="group">
+                <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-xl font-semibold text-gray-400 text-center flex-1">
+                        Dominant Colors
+                    </h3>
+                    {/* Bouton pour basculer l'affichage */}
+                    {dominantColors.length > 8 && (
+                        <button
+                            onClick={() => setShowAllColors(!showAllColors)}
+                            className="flex items-center gap-2 px-3 py-2 bg-gray-700/50 hover:bg-gray-700 border border-gray-600/30 rounded-lg text-xs text-gray-400 hover:text-gray-300 transition-all duration-200"
+                        >
+                            {showAllColors ? (
+                                <>
+                                    <span>Show Less</span>
+                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                                    </svg>
+                                </>
+                            ) : (
+                                <>
+                                    <span>Show All ({dominantColors.length})</span>
+                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </>
+                            )}
+                        </button>
+                    )}
+                </div>
+
+                {/* Compteur de couleurs */}
+                <div className="text-center mb-4">
+                    <span className="text-xs text-gray-500">
+                        Showing {colorsToShow.length} of {dominantColors.length} colors
+                    </span>
+                </div>
+
+                {/* Grille de couleurs avec transition */}
+                <div className={`grid gap-4 transition-all duration-500 ${
+                    showAllColors 
+                        ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8' 
+                        : 'grid-cols-2 md:grid-cols-4'
+                }`}>
+                    {colorsToShow.map((color, index) => (
+                        <div 
+                            key={`${color.hex}-${index}`} 
+                            className="group animate-fadeInUp" 
+                            style={{ animationDelay: `${index * 50}ms` }}
+                        >
                             <div 
-                                className="w-full h-20 rounded-xl mb-3 border border-gray-400/20 transition-transform duration-300 group-hover:scale-105 cursor-pointer"
-                                style={{ backgroundColor: color.hex }}
+                                className="w-full h-20 rounded-xl mb-3 border border-gray-400/20 transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg cursor-pointer"
+                                style={{ 
+                                    backgroundColor: color.hex,
+                                    boxShadow: `0 4px 20px ${color.hex}20`
+                                }}
                                 title={`${color.hex} - ${color.percentage.toFixed(1)}%`}
+                                onClick={() => {
+                                    // Copier la couleur au clic
+                                    navigator.clipboard?.writeText(color.hex);
+                                }}
                             ></div>
                             <div className="text-center space-y-1">
-                                <div className="text-xs text-gray-400 font-mono">
+                                <div className="text-xs text-gray-400 font-mono group-hover:text-gray-300 transition-colors">
                                     {color.hex}
                                 </div>
                                 <div className="text-xs text-gray-500">
@@ -195,6 +251,23 @@ export default function ColorResults({ results }) {
                         </div>
                     ))}
                 </div>
+
+                {/* Note d'interaction */}
+                <div className="mt-4 text-center">
+                    <p className="text-xs text-gray-600">
+                        💡 Click on any color to copy its hex code
+                    </p>
+                </div>
+
+                {/* Animation pour les nouvelles couleurs */}
+                {showAllColors && dominantColors.length > 8 && (
+                    <div className="mt-4 text-center">
+                        <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-400/30 rounded-lg px-3 py-2 text-xs text-green-400">
+                            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                            {dominantColors.length - 8} additional colors revealed
+                        </div>
+                    </div>
+                )}
             </div>
 
             {/* Statistiques supplémentaires */}
